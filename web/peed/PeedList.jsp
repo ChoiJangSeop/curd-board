@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,24 +23,27 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <jsp:include page="../Header.jsp" />
-    <c:forEach var="peed" items='${peeds}'>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    ${peed.getNo()}
-                </div>
-                <div class="col-6">
-                    ${peed.getTitle()}
-                </div>
-                <div class="col">
-                    ${peed.getCreatedDate()}
-                </div>
-                <div class="col">
-                    ${peed.getWriter()}
-                </div>
-            </div>
-        </div>
-    </c:forEach>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col-xs-1">#</th>
+            <th scope="col-xs-6">Title</th>
+            <th scope="col-xs-2">Created Date</th>
+            <th scope="col-xs-2">Writer</th>
+            <th scope="col-xs-1"><button type="button" class="btn btn-primary">+</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="peed" items='${peeds}'>
+            <tr>
+                <th scope="row">${peed.getNo()}</th>
+                <td><a href="content.do?no=${peed.getNo()}">${peed.getTitle()}</a></td>
+                <td>${peed.getCreatedDate()}</td>
+                <td>${peed.getWriter()}</td>
+                <td></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </body>
 </html>
