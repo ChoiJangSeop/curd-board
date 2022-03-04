@@ -4,6 +4,6 @@
     <Resource name="jdbc/crudboard_db" auth="Container"
               type="javax.sql.DataSource" username="root" password="dkq041675!"
               driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://127.0.0.1:3306/crudboard_db?serverTimezone=UTC"
+              url="jdbc:mysql://localhost:3306/crudboard_db?serverTimezone=UTC"
               maxActive="50" maxIdle="30" maxWait="1000"/>
 </Context>

@@ -23,25 +23,26 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <jsp:include page="Header.jsp" />
+
     <table class="table">
         <thead>
         <tr>
             <th scope="col-xs-1">#</th>
-            <th scope="col-xs-6">Title</th>
+            <th scope="col-xs-7">Title</th>
             <th scope="col-xs-2">Created Date</th>
             <th scope="col-xs-2">Writer</th>
-            <th scope="col-xs-1"><button type="button" class="btn btn-primary">+</button></th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="peed" items='${peeds}'>
+        <c:forEach var="peed" items='${peeds}' varStatus="status">
             <tr>
-                <th scope="row">${peed.getNo()}</th>
+                <th scope="row"><c:out value="${status.count}" /></th>
                 <td><a href="content.do?no=${peed.getNo()}">${peed.getTitle()}</a></td>
                 <td>${peed.getCreatedDate()}</td>
                 <td>${peed.getWriter()}</td>
-                <td></td>
             </tr>
+
         </c:forEach>
         </tbody>
     </table>

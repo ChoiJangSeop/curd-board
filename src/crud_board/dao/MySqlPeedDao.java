@@ -30,7 +30,7 @@ public class MySqlPeedDao {
         try {
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT PNO, TITLE, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds ORDER BY PNO ASC");
+            rs = stmt.executeQuery("SELECT PNO, TITLE, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds ORDER BY PNO DESC");
 
             ArrayList<Peed> peeds = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class MySqlPeedDao {
         try {
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT SELECT PNO, TITLE, CONTENT, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds WHERE PNO=" + no);
+            rs = stmt.executeQuery("SELECT PNO, TITLE, CONTENT, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds WHERE PNO=" + no);
 
             if (rs.next()) {
                 peed = new Peed()
@@ -90,13 +90,12 @@ public class MySqlPeedDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO peeds (PNO, TITLE, CONTENT, WRITER, CRE_DATE) " +
-                    "VALUES (?, ?, ?, ?, NOW())");
-            stmt.setInt(1, peed.getNo());
-            stmt.setString(2, peed.getTitle());
-            stmt.setString(3, peed.getContent());
-            stmt.setString(4, peed.getWriter());
-            stmt.executeQuery();
+            stmt = conn.prepareStatement("INSERT INTO peeds (TITLE, CONTENT, WRITER, CRE_DATE) " +
+                    "VALUES (?, ?, ?, NOW())");
+            stmt.setString(1, peed.getTitle());
+            stmt.setString(2, peed.getContent());
+            stmt.setString(3, peed.getWriter());
+            stmt.executeUpdate();
 
         } catch (Exception e) {}
         finally {
@@ -108,12 +107,13 @@ public class MySqlPeedDao {
 
     public int delete(int no) throws Exception {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
 
         try {
             conn = ds.getConnection();
-            stmt = conn.createStatement();
-            stmt.executeQuery("DELETE FROM peeds WHERE PNO=" + no);
+            stmt = conn.prepareStatement("DELETE FROM peeds WHERE PNO=?");
+            stmt.setInt(1, no);
+            stmt.executeUpdate();
         } catch (Exception e) { throw e; }
         finally {
             try { if (stmt != null) stmt.close(); } catch (Exception e) {}
@@ -132,6 +132,7 @@ public class MySqlPeedDao {
             stmt.setString(1, peed.getTitle());
             stmt.setString(2, peed.getContent());
             stmt.setInt(3, peed.getNo());
+            stmt.executeUpdate();
 
         } catch (Exception e) { throw e; }
         finally {

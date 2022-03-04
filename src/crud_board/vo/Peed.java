@@ -24,7 +24,7 @@ public class Peed {
 
     public String getTitle() { return title; }
 
-    public Peed setContent(String Content) {
+    public Peed setContent(String content) {
         this.content = content; return this;
     }
 
