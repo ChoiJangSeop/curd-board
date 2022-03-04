@@ -1,6 +1,6 @@
 package crud_board.listener;
 
-import crud_board.dao.MySqlPeedDao;
+import crud_board.dao.MySqlFeedDao;
 import crud_board.dao.MySqlUserDao;
 
 import javax.naming.InitialContext;
@@ -27,7 +27,7 @@ public class ContextLoaderListener implements ServletContextListener {
                     "java:comp/env/jdbc/crudboard_db"
             );
 
-            MySqlPeedDao peedDao = new MySqlPeedDao();
+            MySqlFeedDao peedDao = new MySqlFeedDao();
             MySqlUserDao userDao = new MySqlUserDao();
 
             peedDao.setDataSource(ds);

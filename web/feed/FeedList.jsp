@@ -35,12 +35,12 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="peed" items='${peeds}' varStatus="status">
+        <c:forEach var="feed" items='${feeds}' varStatus="status">
             <tr>
                 <th scope="row"><c:out value="${status.count}" /></th>
-                <td><a href="content.do?no=${peed.getNo()}">${peed.getTitle()}</a></td>
-                <td>${peed.getCreatedDate()}</td>
-                <td>${peed.getWriter()}</td>
+                <td><a href="content.do?no=${feed.getNo()}">${feed.getTitle()}</a></td>
+                <td>${feed.getCreatedDate()}</td>
+                <td>${feed.getWriter()}</td>
             </tr>
 
         </c:forEach>

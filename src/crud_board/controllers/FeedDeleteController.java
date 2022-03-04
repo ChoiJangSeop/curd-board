@@ -1,22 +1,22 @@
 package crud_board.controllers;
 
-import crud_board.dao.MySqlPeedDao;
+import crud_board.dao.MySqlFeedDao;
 
 import java.util.Map;
 
-public class PeedDeleteController implements Controller {
+public class FeedDeleteController implements Controller {
 
-    MySqlPeedDao peedDao;
+    MySqlFeedDao feedDao;
 
-    public PeedDeleteController setPeedDao(MySqlPeedDao peedDao) {
-        this.peedDao = peedDao;
+    public FeedDeleteController setFeedDao(MySqlFeedDao feedDao) {
+        this.feedDao = feedDao;
         return this;
     }
 
     @Override
     public String execute(Map<String, Object> model) throws Exception {
         int no = (Integer) model.get("no");
-        peedDao.delete(no);
+        feedDao.delete(no);
         return "redirect:main.do";
     }
 }

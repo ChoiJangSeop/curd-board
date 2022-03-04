@@ -1,15 +1,15 @@
 package crud_board.controllers;
 
-import crud_board.dao.MySqlPeedDao;
+import crud_board.dao.MySqlFeedDao;
 
 import java.util.Map;
 
-public class PeedContentController implements Controller {
+public class FeedContentController implements Controller {
 
-    MySqlPeedDao peedDao;
+    MySqlFeedDao feedDao;
 
-    public PeedContentController setPeedDao(MySqlPeedDao peedDao) {
-        this.peedDao = peedDao;
+    public FeedContentController setFeedDao(MySqlFeedDao feedDao) {
+        this.feedDao = feedDao;
         return this;
     }
 
@@ -17,8 +17,8 @@ public class PeedContentController implements Controller {
     public String execute(Map<String, Object> model) throws Exception {
         if (model.get("no") != null) {
             Integer no = (Integer) model.get("no");
-            model.put("peed", peedDao.selectOne(no));
-            return "/peed/PeedContent.jsp";
+            model.put("feed", feedDao.selectOne(no));
+            return "/feed/FeedContent.jsp";
         } else {
             return "error.jsp";
         }

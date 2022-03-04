@@ -1,12 +1,11 @@
 package crud_board.servlets;
 
 import crud_board.controllers.*;
-import crud_board.dao.MySqlPeedDao;
-import crud_board.vo.Peed;
+import crud_board.dao.MySqlFeedDao;
+import crud_board.vo.Feed;
 import crud_board.vo.User;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,23 +31,23 @@ public class DispatcherServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         ServletContext sc = request.getServletContext();
-        MySqlPeedDao peedDao = (MySqlPeedDao) sc.getAttribute("peedDao");
+        MySqlFeedDao feedDao = (MySqlFeedDao) sc.getAttribute("peedDao");
 
         try {
             Controller pageController;
 
             if (servletPath.equals("/auth/login.do")) {
                 pageController = new LogInController();
-            } else if (servletPath.equals("/peed/main.do")) {
-                pageController = new PeedListController().setPeedDao(peedDao);
-            } else if (servletPath.equals("/peed/content.do")) {
+            } else if (servletPath.equals("/feed/main.do")) {
+                pageController = new FeedListController().setFeedDao(feedDao);
+            } else if (servletPath.equals("/feed/content.do")) {
                 if (request.getParameter("no") != null) {
                     model.put("no", Integer.parseInt(request.getParameter("no")));
-                    pageController = new PeedContentController().setPeedDao(peedDao);
+                    pageController = new FeedContentController().setFeedDao(feedDao);
                 } else {
                     throw new ServletException();
                 }
-            } else if (servletPath.equals("/peed/add.do")) {
+            } else if (servletPath.equals("/feed/add.do")) {
                 User user;
                 if(session.getAttribute("user") != null) {
                     user = (User) session.getAttribute("user");
@@ -57,32 +56,32 @@ public class DispatcherServlet extends HttpServlet {
                 }
 
                 if (request.getParameter("title") != null) {
-                    Peed peed = new Peed()
+                    Feed feed = new Feed()
                             .setTitle(request.getParameter("title"))
                             .setContent(request.getParameter("content"))
                             .setWriter(user.getName());
-                    model.put("peed", peed);
+                    model.put("feed", feed);
                 }
 
-                pageController = new PeedAddController().setPeedDao(peedDao);
-            } else if (servletPath.equals("/peed/edit.do")) {
+                pageController = new FeedAddController().setFeedDao(feedDao);
+            } else if (servletPath.equals("/feed/edit.do")) {
                 int no = Integer.parseInt(request.getParameter("no"));
 
                 if (request.getParameter("title") == null) {
                     model.put("no", no);
                 } else {
-                    Peed peed = new Peed()
+                    Feed feed = new Feed()
                             .setNo(no)
                             .setTitle(request.getParameter("title"))
                             .setContent(request.getParameter("content"));
-                    model.put("editPeed", peed);
+                    model.put("editFeed", feed);
                 }
 
-                pageController = new PeedEditController().setPeedDao(peedDao);
-            } else if (servletPath.equals("/peed/delete.do")) {
+                pageController = new FeedEditController().setFeedDao(feedDao);
+            } else if (servletPath.equals("/feed/delete.do")) {
                 if (request.getParameter("no") != null) {
                     model.put("no", Integer.parseInt(request.getParameter("no")));
-                    pageController = new PeedDeleteController().setPeedDao(peedDao);
+                    pageController = new FeedDeleteController().setFeedDao(feedDao);
                 } else {
                     throw new ServletException();
                 }

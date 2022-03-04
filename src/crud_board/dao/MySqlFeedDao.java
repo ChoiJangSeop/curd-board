@@ -1,7 +1,6 @@
 package crud_board.dao;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
-import crud_board.vo.Peed;
+import crud_board.vo.Feed;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class MySqlPeedDao {
+public class MySqlFeedDao {
 
     private static final Logger LOG = Logger.getGlobal();
 
@@ -22,7 +21,7 @@ public class MySqlPeedDao {
         this.ds = ds;
     }
 
-    public List<Peed> selectList() throws Exception {
+    public List<Feed> selectList() throws Exception {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -32,20 +31,20 @@ public class MySqlPeedDao {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT PNO, TITLE, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds ORDER BY PNO DESC");
 
-            ArrayList<Peed> peeds = new ArrayList<>();
+            ArrayList<Feed> feeds = new ArrayList<>();
 
             while(rs.next()) {
-                peeds.add(new Peed()
+                feeds.add(new Feed()
                         .setNo(rs.getInt("PNO"))
                         .setTitle(rs.getString("TITLE"))
                         .setWriter(rs.getString("WRITER"))
                         .setCreatedDate(rs.getDate("CRE_DATE")));
             }
 
-            LOG.info("[PeedDAO.selectList() success]");
-            return peeds;
+            LOG.info("[feedDAO.selectList() success]");
+            return feeds;
         } catch (Exception e) {
-            LOG.severe("[peedDAO.selectList failed] " + e.getMessage());
+            LOG.severe("[feedDAO.selectList failed] " + e.getMessage());
             throw e;
         }
         finally {
@@ -55,11 +54,11 @@ public class MySqlPeedDao {
         }
     }
 
-    public Peed selectOne(int no) throws Exception {
+    public Feed selectOne(int no) throws Exception {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        Peed peed = null;
+        Feed feed = null;
 
         try {
             conn = ds.getConnection();
@@ -67,7 +66,7 @@ public class MySqlPeedDao {
             rs = stmt.executeQuery("SELECT PNO, TITLE, CONTENT, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds WHERE PNO=" + no);
 
             if (rs.next()) {
-                peed = new Peed()
+                feed = new Feed()
                         .setNo(rs.getInt("PNO"))
                         .setTitle(rs.getString("TITLE"))
                         .setWriter(rs.getString("WRITER"))
@@ -75,7 +74,7 @@ public class MySqlPeedDao {
                         .setContent(rs.getString("CONTENT"));
             }
 
-            return peed;
+            return feed;
         } catch (Exception e) { throw e; }
         finally {
             try { if (rs != null) rs.close(); } catch (Exception e) {}
@@ -84,7 +83,7 @@ public class MySqlPeedDao {
         }
     }
 
-    public int insert(Peed peed) throws Exception {
+    public int insert(Feed feed) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -92,9 +91,9 @@ public class MySqlPeedDao {
             conn = ds.getConnection();
             stmt = conn.prepareStatement("INSERT INTO peeds (TITLE, CONTENT, WRITER, CRE_DATE) " +
                     "VALUES (?, ?, ?, NOW())");
-            stmt.setString(1, peed.getTitle());
-            stmt.setString(2, peed.getContent());
-            stmt.setString(3, peed.getWriter());
+            stmt.setString(1, feed.getTitle());
+            stmt.setString(2, feed.getContent());
+            stmt.setString(3, feed.getWriter());
             stmt.executeUpdate();
 
         } catch (Exception e) {}
@@ -122,16 +121,16 @@ public class MySqlPeedDao {
         }
     }
 
-    public int update(Peed peed) throws Exception {
+    public int update(Feed feed) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
             conn = ds.getConnection();
             stmt = conn.prepareStatement("UPDATE peeds SET TITLE=?, CONTENT=? WHERE PNO=?");
-            stmt.setString(1, peed.getTitle());
-            stmt.setString(2, peed.getContent());
-            stmt.setInt(3, peed.getNo());
+            stmt.setString(1, feed.getTitle());
+            stmt.setString(2, feed.getContent());
+            stmt.setInt(3, feed.getNo());
             stmt.executeUpdate();
 
         } catch (Exception e) { throw e; }
