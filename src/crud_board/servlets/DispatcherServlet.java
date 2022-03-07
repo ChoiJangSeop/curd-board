@@ -2,6 +2,7 @@ package crud_board.servlets;
 
 import crud_board.controllers.*;
 import crud_board.dao.MySqlFeedDao;
+import crud_board.dao.MySqlUserDao;
 import crud_board.vo.Feed;
 import crud_board.vo.User;
 
@@ -32,12 +33,26 @@ public class DispatcherServlet extends HttpServlet {
 
         ServletContext sc = request.getServletContext();
         MySqlFeedDao feedDao = (MySqlFeedDao) sc.getAttribute("peedDao");
+        MySqlUserDao userDao = (MySqlUserDao) sc.getAttribute("userDao");
 
         try {
             Controller pageController;
 
             if (servletPath.equals("/auth/login.do")) {
-                pageController = new LogInController();
+                if (request.getParameter("id") != null) {
+                    model.put("id", request.getParameter("id"));
+                    model.put("password", request.getParameter("password"));
+                }
+                pageController = new LogInController().setUserDao(userDao);
+            } else if (servletPath.equals("/auth/join.do")) {
+                if (request.getParameter("name") != null) {
+                    User user = new User()
+                            .setName(request.getParameter("name"))
+                            .setId(request.getParameter("id"))
+                            .setPassword(request.getParameter("password"));
+                    model.put("newUser", user);
+                }
+                pageController = new JoinController().setUserDao(userDao);
             } else if (servletPath.equals("/feed/main.do")) {
                 pageController = new FeedListController().setFeedDao(feedDao);
             } else if (servletPath.equals("/feed/content.do")) {
