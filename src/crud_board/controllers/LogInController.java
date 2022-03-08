@@ -2,6 +2,7 @@ package crud_board.controllers;
 
 import crud_board.dao.MySqlUserDao;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 public class LogInController implements Controller {
@@ -15,6 +16,13 @@ public class LogInController implements Controller {
 
     @Override
     public String execute(Map<String, Object> model) throws Exception {
+
+        if (model.get("anonymous") != null) {
+            HttpSession session = (HttpSession) model.get("session");
+            session.setAttribute("loginUser", "익명");
+            return "redirect:../feed/main.do";
+        }
+
         if (model.get("id") == null) {
             return "/auth/LoginForm.jsp";
         } else {
@@ -24,6 +32,8 @@ public class LogInController implements Controller {
 
             if (flag) {
                 // TODO register user to HttpSession
+                HttpSession session = (HttpSession) model.get("session");
+                session.setAttribute("loginUser", id);
                 return "redirect:../feed/main.do";
             } else {
                 return "redirect:login.do";

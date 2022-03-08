@@ -39,11 +39,18 @@ public class DispatcherServlet extends HttpServlet {
             Controller pageController;
 
             if (servletPath.equals("/auth/login.do")) {
-                if (request.getParameter("id") != null) {
+                if (request.getParameter("anonymous") != null) {
+                    model.put("anonymous", request.getParameter("anonymous"));
+                    model.put("session", session);
+                } else if (request.getParameter("id") != null) {
                     model.put("id", request.getParameter("id"));
                     model.put("password", request.getParameter("password"));
+                    model.put("session", session);
                 }
                 pageController = new LogInController().setUserDao(userDao);
+            } else if (servletPath.equals("/auth/logout.do")) {
+                model.put("session", session);
+                pageController = new LogOutController();
             } else if (servletPath.equals("/auth/join.do")) {
                 if (request.getParameter("name") != null) {
                     User user = new User()
@@ -54,6 +61,7 @@ public class DispatcherServlet extends HttpServlet {
                 }
                 pageController = new JoinController().setUserDao(userDao);
             } else if (servletPath.equals("/feed/main.do")) {
+                model.put("session", session);
                 pageController = new FeedListController().setFeedDao(feedDao);
             } else if (servletPath.equals("/feed/content.do")) {
                 if (request.getParameter("no") != null) {
@@ -63,18 +71,12 @@ public class DispatcherServlet extends HttpServlet {
                     throw new ServletException();
                 }
             } else if (servletPath.equals("/feed/add.do")) {
-                User user;
-                if(session.getAttribute("user") != null) {
-                    user = (User) session.getAttribute("user");
-                } else {
-                    user = new User().setName("anonymous");
-                }
 
                 if (request.getParameter("title") != null) {
                     Feed feed = new Feed()
                             .setTitle(request.getParameter("title"))
                             .setContent(request.getParameter("content"))
-                            .setWriter(user.getName());
+                            .setWriter((String) session.getAttribute("loginUser"));
                     model.put("feed", feed);
                 }
 

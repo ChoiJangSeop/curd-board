@@ -41,5 +41,9 @@
         <input type="submit" class="btn btn-primary" value="로그인">
         <a href="join.do" class="btn btn-secondary">회원가입</a>
     </form>
+    <form action="login.do" method="post">
+        <input type="hidden" name="anonymous" value="true">
+        <input type="submit" class="btn btn-success" value="익명으로 시작">
+    </form>
 </body>
 </html>

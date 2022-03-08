@@ -20,7 +20,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Logout</a>
+                    <a class="nav-link" href="../auth/logout.do">Logout</a>
                 </li>
             </ul>
             <form class="d-flex">
