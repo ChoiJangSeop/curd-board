@@ -2,6 +2,8 @@ package crud_board.dao;
 
 import crud_board.vo.Feed;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -83,7 +85,7 @@ public class MySqlFeedDao {
         }
     }
 
-    public int insert(Feed feed) throws Exception {
+    public int insert(Feed feed, HttpSession session) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -93,7 +95,7 @@ public class MySqlFeedDao {
                     "VALUES (?, ?, ?, NOW())");
             stmt.setString(1, feed.getTitle());
             stmt.setString(2, feed.getContent());
-            stmt.setString(3, feed.getWriter());
+            stmt.setString(3, (String) session.getAttribute("loginUser"));
             stmt.executeUpdate();
 
         } catch (Exception e) {}

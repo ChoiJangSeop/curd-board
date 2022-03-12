@@ -23,6 +23,7 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <jsp:useBean id="feed" scope="request" class="crud_board.vo.Feed" />
+    <jsp:useBean id="authority" scope="request" class="java.lang.String" />
     <jsp:include page="Header.jsp" />
 
     <div class="card">
@@ -31,8 +32,8 @@
         </div>
         <div class="card-body">
             <p class="card-text">${requestScope.feed.getContent()}</p>
-            <a href="edit.do?no=${requestScope.feed.getNo()}" class="btn btn-danger">수정</a>
             <a href="main.do" class="btn btn-primary">목록</a>
+            <a href="edit.do?no=${requestScope.feed.getNo()}" class="btn btn-danger ${requestScope.authority}">수정</a>
         </div>
     </div>
 </body>

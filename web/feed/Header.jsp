@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 
+<jsp:useBean id="loginUser" scope="session" class="java.lang.String" />
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="main.do">CRUD 게시판</a>
@@ -17,6 +19,10 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="add.do">Add Feed</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">${sessionScope.loginUser} 님, 입장</a>
                 </li>
 
                 <li class="nav-item">

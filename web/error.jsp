@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>CRUD 게시판: 오류</title>
 </head>
 <body>
-
+    <p>요청 하신 페이지를 찾을 수 없습니다.</p>
 </body>
 </html>

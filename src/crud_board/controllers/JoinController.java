@@ -1,11 +1,12 @@
 package crud_board.controllers;
 
+import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlUserDao;
 import crud_board.vo.User;
 
 import java.util.Map;
 
-public class JoinController implements Controller {
+public class JoinController implements Controller, DataBinding {
 
     MySqlUserDao userDao;
 
@@ -15,11 +16,20 @@ public class JoinController implements Controller {
     }
 
     @Override
+    public Object[] getDataBinders() {
+        return new Object[] {
+          "newUser", crud_board.vo.User.class
+        };
+    }
+
+    @Override
     public String execute(Map<String, Object> model) throws Exception {
-        if (model.get("newUser") == null) {
+
+        User newUser = (User) model.get("newUser");
+
+        if (newUser.getName() == null) {
             return "/auth/JoinForm.jsp";
         } else {
-            User newUser = (User) model.get("newUser");
             userDao.insert(newUser);
             return "redirect:login.do";
         }

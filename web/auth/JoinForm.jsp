@@ -24,21 +24,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <jsp:include page="../feed/Header.jsp" />
 
-    <form action="join.do" method="post">
-        <div class="input-group mb-3">
-            <span class="input-group-text">이름</span>
-            <input type="text" class="form-control" name="name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+    <form class="row g-3" action="join.do" method="post" style="margin-right: 25%; margin-left:25%;">
+        <div class="col-md-6">
+            <label for="inputName" class="form-label">이름</label>
+            <input type="text" name="name" class="form-control" id="inputName">
         </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text">아이디</span>
-            <input type="text" class="form-control" name="id" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <div class="col-md-6">
+            <label for="inputId" class="form-label">아이디</label>
+            <input type="text" name="id" class="form-control" id="inputId">
         </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text">비번</span>
-            <input type="text" class="form-control" name="password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <div class="col-12">
+            <label for="inputPassword" class="form-label">비밀번호</label>
+            <input type="password" name="password" class="form-control" id="inputPassword">
         </div>
-        <input type="submit" class="btn btn-primary" value="회원가입">
-        <input type="reset" class="btn btn-danger" href="login.do" value="취소">
+        <div class="col-12">
+            <label for="inputPasswordCheck" class="form-label">비밀번호 확인</label>
+            <input type="password" name="passwordCheck" class="form-control" id="inputPasswordCheck">
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">회원가입</button>
+            <input type="reset" class="btn btn-danger" href="login.do" value="취소">
+        </div>
     </form>
 </body>
 </html>

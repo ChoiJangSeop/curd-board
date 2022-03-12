@@ -1,5 +1,6 @@
 package crud_board.listener;
 
+import crud_board.controllers.*;
 import crud_board.dao.MySqlFeedDao;
 import crud_board.dao.MySqlUserDao;
 
@@ -27,18 +28,19 @@ public class ContextLoaderListener implements ServletContextListener {
                     "java:comp/env/jdbc/crudboard_db"
             );
 
-            MySqlFeedDao peedDao = new MySqlFeedDao();
+            MySqlFeedDao feedDao = new MySqlFeedDao();
             MySqlUserDao userDao = new MySqlUserDao();
 
-            peedDao.setDataSource(ds);
-            userDao.setDataSource(ds);
+            sc.setAttribute("/auth/login.do", new LogInController().setUserDao(userDao));
+            sc.setAttribute("/auth/logout.do", new LogOutController());
+            sc.setAttribute("/auth/join.do", new JoinController().setUserDao(userDao));
+            sc.setAttribute("/feed/main.do", new FeedListController().setFeedDao(feedDao));
+            sc.setAttribute("/feed/content.do", new FeedContentController().setFeedDao(feedDao));
+            sc.setAttribute("/feed/add.do", new FeedAddController().setFeedDao(feedDao));
+            sc.setAttribute("/feed/edit.do", new FeedEditController().setFeedDao(feedDao));
+            sc.setAttribute("/feed/delete.do", new FeedDeleteController().setFeedDao(feedDao));
 
-            sc.setAttribute("peedDao", peedDao);
-            sc.setAttribute("userDao", userDao);
-
-            LOG.info("[ContextLoaderListener.contextInitialized() success]");
         } catch (Throwable e) {
-            LOG.severe("[ContextLoaderListener.contextInitialized() failed] " + e.getMessage());
             e.printStackTrace();
         }
     }

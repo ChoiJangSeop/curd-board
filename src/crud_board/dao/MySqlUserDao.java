@@ -138,7 +138,7 @@ public class MySqlUserDao {
         }
     }
 
-    public boolean exist(String id, String password) throws Exception {
+    public int exist(String id, String password) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -151,7 +151,11 @@ public class MySqlUserDao {
 
             rs = stmt.executeQuery();
 
-            return rs.next();
+            if (rs.next()) {
+                return rs.getInt("UNO");
+            } else {
+                return -1;
+            }
 
         } catch (Exception e) { throw e; }
         finally {
