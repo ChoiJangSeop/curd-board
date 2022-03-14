@@ -31,6 +31,9 @@ public class ContextLoaderListener implements ServletContextListener {
             MySqlFeedDao feedDao = new MySqlFeedDao();
             MySqlUserDao userDao = new MySqlUserDao();
 
+            feedDao.setDataSource(ds);
+            userDao.setDataSource(ds);
+
             sc.setAttribute("/auth/login.do", new LogInController().setUserDao(userDao));
             sc.setAttribute("/auth/logout.do", new LogOutController());
             sc.setAttribute("/auth/join.do", new JoinController().setUserDao(userDao));

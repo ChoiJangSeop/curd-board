@@ -39,7 +39,6 @@ public class LogInController implements Controller, DataBinding {
             return "redirect:../feed/main.do";
         }
 
-        // TODO how to check id is null?
         if (id.equals("null")) {
             return "/auth/LoginForm.jsp";
         } else {

@@ -36,7 +36,7 @@ public class DispatcherServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
 
-            ServletContext sc = this.getServletContext();
+            ServletContext sc = request.getServletContext();
 
             Controller pageController = (Controller) sc.getAttribute(servletPath);
             model.put("session", session);
@@ -64,7 +64,7 @@ public class DispatcherServlet extends HttpServlet {
                 rd.include(request, response);
             }
         } catch (Exception e) {
-
+            throw new ServletException(e);
         }
     }
 

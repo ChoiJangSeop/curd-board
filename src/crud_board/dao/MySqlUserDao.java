@@ -43,9 +43,7 @@ public class MySqlUserDao {
             return users;
         } catch (Exception e) { throw e; }
         finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            closeDB(conn, stmt, rs);
         }
     }
 
@@ -72,11 +70,7 @@ public class MySqlUserDao {
             return user;
 
         } catch (Exception e) { throw e; }
-        finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
-        }
+        finally { closeDB(conn, stmt, rs); }
     }
 
     public int insert(User user) throws Exception {
@@ -93,10 +87,7 @@ public class MySqlUserDao {
             return stmt.executeUpdate();
 
         } catch (Exception e) { throw e; }
-        finally {
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
-        }
+        finally { closeDB(conn, stmt, null); }
     }
 
     public int delete(int no) throws Exception {
@@ -111,10 +102,7 @@ public class MySqlUserDao {
             return stmt.executeUpdate();
 
         } catch (Exception e) { throw e; }
-        finally {
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
-        }
+        finally { closeDB(conn, stmt, null); }
     }
 
     public int update(User user) throws Exception {
@@ -132,10 +120,7 @@ public class MySqlUserDao {
             return stmt.executeUpdate();
 
         } catch (Exception e) { throw e; }
-        finally {
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
-        }
+        finally { closeDB(conn, stmt, null); }
     }
 
     public int exist(String id, String password) throws Exception {
@@ -158,10 +143,53 @@ public class MySqlUserDao {
             }
 
         } catch (Exception e) { throw e; }
-        finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
-        }
+        finally { closeDB(conn, stmt, rs); }
+    }
+
+    public boolean existId(String id) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.prepareStatement("SELECT UNO FROM users WHERE ID=?");
+            stmt.setString(1, id);
+
+            rs = stmt.executeQuery();
+
+            return rs.next();
+
+        } catch (Exception e) { throw e; }
+        finally { closeDB(conn, stmt, rs); }
+    }
+
+    public boolean existName(String name) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.prepareStatement("SELECT UNO FROM users WHERE NAME=?");
+            stmt.setString(1, name);
+
+            rs = stmt.executeQuery();
+            return rs.next();
+
+        } catch (Exception e) { throw e; }
+        finally { closeDB(conn, stmt, rs); }
+    }
+
+    private void closeDB(Connection conn, Statement stmt, ResultSet rs) {
+        try { if (rs != null) rs.close(); } catch (Exception e) {}
+        try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+        try { if (conn != null) conn.close(); } catch (Exception e) {}
+    }
+
+    private void closeDB(Connection conn, PreparedStatement stmt, ResultSet rs) {
+        try { if (rs != null) rs.close(); } catch (Exception e) {}
+        try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+        try { if (conn != null) conn.close(); } catch (Exception e) {}
     }
 }

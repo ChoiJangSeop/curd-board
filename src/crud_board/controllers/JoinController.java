@@ -28,10 +28,29 @@ public class JoinController implements Controller, DataBinding {
         User newUser = (User) model.get("newUser");
 
         if (newUser.getName() == null) {
-            return "/auth/JoinForm.jsp";
+
+            if (newUser.getId() == null) {
+                return "/auth/JoinForm.jsp";
+            } else {
+                if (userDao.existId(newUser.getId())) {
+                    // TODO alert duplicate issue
+                    return "redirect:join.do";
+                } else {
+                    model.put("id", newUser.getId());
+                    model.put("password", newUser.getPassword());
+                    return "/auth/JoinForm2.jsp";
+                }
+            }
+
         } else {
-            userDao.insert(newUser);
-            return "redirect:login.do";
+            if (userDao.existName(newUser.getName())) {
+                // TODO alert duplicate issue
+                return "redirect:join.do";
+            } else {
+                userDao.insert(newUser);
+                return "redirect:login.do";
+            }
+
         }
     }
 }
