@@ -29,9 +29,10 @@
         <thead>
         <tr>
             <th scope="col-xs-1">#</th>
-            <th scope="col-xs-7">Title</th>
+            <th scope="col-xs-6">Title</th>
             <th scope="col-xs-2">Created Date</th>
             <th scope="col-xs-2">Writer</th>
+            <th scope="col-xs-1">Views</th>
         </tr>
         </thead>
         <tbody>
@@ -41,6 +42,7 @@
                 <td><a href="content.do?no=${feed.getNo()}">${feed.getTitle()}</a></td>
                 <td>${feed.getCreatedDate()}</td>
                 <td>${feed.getWriter()}</td>
+                <td>${feed.getViews()}</td>
             </tr>
 
         </c:forEach>

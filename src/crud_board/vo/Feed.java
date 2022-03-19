@@ -9,8 +9,8 @@ public class Feed {
     public String content;
     public Date createdDate;
     public String writer;
-    public int likes=0;
-    public int views=0;
+    public int likes;
+    public int views;
 
     public Feed setNo(int no) {
         this.no = no; return this;
@@ -42,6 +42,16 @@ public class Feed {
 
     public String getWriter() { return writer; }
 
+    public Feed setLikes(int likes) {
+        this.likes = likes; return this;
+    }
+
     public int getLikes() { return likes; }
+
+    public Feed setViews(int views) {
+        this.views = views;
+        return this;
+    }
+
     public int getViews() { return views; }
 }

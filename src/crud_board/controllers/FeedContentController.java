@@ -39,6 +39,9 @@ public class FeedContentController implements Controller, DataBinding {
             model.put("authority", "disabled");
         }
 
+        // update views
+        feedDao.updateViews(no);
+
         // feed content
         model.put("feed", feedDao.selectOne(no));
         return "/feed/FeedContent.jsp";

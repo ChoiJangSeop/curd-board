@@ -1,5 +1,6 @@
 package crud_board.dao;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import crud_board.vo.Feed;
 
 import javax.servlet.ServletContext;
@@ -40,7 +41,10 @@ public class MySqlFeedDao {
                         .setNo(rs.getInt("PNO"))
                         .setTitle(rs.getString("TITLE"))
                         .setWriter(rs.getString("WRITER"))
-                        .setCreatedDate(rs.getDate("CRE_DATE")));
+                        .setCreatedDate(rs.getDate("CRE_DATE"))
+                        .setLikes(rs.getInt("LIKES"))
+                        .setViews(rs.getInt("VIEWS"))
+                );
             }
 
             LOG.info("[feedDAO.selectList() success]");
@@ -73,7 +77,9 @@ public class MySqlFeedDao {
                         .setTitle(rs.getString("TITLE"))
                         .setWriter(rs.getString("WRITER"))
                         .setCreatedDate(rs.getDate("CRE_DATE"))
-                        .setContent(rs.getString("CONTENT"));
+                        .setContent(rs.getString("CONTENT"))
+                        .setLikes(rs.getInt("LIKES"))
+                        .setViews(rs.getInt("VIEWS"));
             }
 
             return feed;
@@ -140,6 +146,23 @@ public class MySqlFeedDao {
             try { if (stmt != null) stmt.close(); } catch (Exception e) {}
             try { if (conn != null) conn.close(); } catch (Exception e) {}
             return 0;
+        }
+    }
+
+    public int updateViews(int no) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.prepareStatement("UPDATE peeds SET VIEWS = VIEWS + 1 WHERE PNO=?");
+            stmt.setInt(1, no);
+
+            return stmt.executeUpdate();
+        } catch (Exception e) { throw e; }
+        finally {
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
         }
     }
 }
