@@ -43,6 +43,7 @@ public class ServletRequestDataBinder {
     }
 
     private static Object createValueObject(Class<?> type, String value) {
+
         if (type.getName().equals("int") || type == Integer.class) {
             return Integer.valueOf(value);
         } else if (type.getName().equals("long") || type == Long.class) {
@@ -54,7 +55,7 @@ public class ServletRequestDataBinder {
         } else if (type.getName().equals("boolean") || type == Boolean.class) {
             return Boolean.valueOf(value);
         } else if (type == String.class) {
-            return String.valueOf(value);
+            return value;
         } else {
             return java.sql.Date.valueOf(value);
         }

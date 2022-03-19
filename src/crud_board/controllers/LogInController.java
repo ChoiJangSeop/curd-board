@@ -33,13 +33,13 @@ public class LogInController implements Controller, DataBinding {
         String id = (String) model.get("id");
         String password = (String) model.get("password");
 
-        if (anonymous.equals("true")) {
+        if (anonymous != null && anonymous.equals("true")) {
             HttpSession session = (HttpSession) model.get("session");
             session.setAttribute("loginUser", "익명");
             return "redirect:../feed/main.do";
         }
 
-        if (id.equals("null")) {
+        if (id == null) {
             return "/auth/LoginForm.jsp";
         } else {
             if (id.equals("") || password.equals("")) {
