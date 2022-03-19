@@ -42,6 +42,11 @@ public class LogInController implements Controller, DataBinding {
         if (id.equals("null")) {
             return "/auth/LoginForm.jsp";
         } else {
+            if (id.equals("") || password.equals("")) {
+                model.put("alert", "아이디와 비번을 모두 입력해주세요");
+                return "/auth/LoginForm.jsp";
+            }
+
             int no = userDao.exist(id, password);
 
             if (no != -1) {
@@ -51,7 +56,8 @@ public class LogInController implements Controller, DataBinding {
                 session.setAttribute("loginUser", loginUser.getName());
                 return "redirect:../feed/main.do";
             } else {
-                return "redirect:login.do";
+                model.put("alert", "아이디 또는 비밀번호가 일치하지 않습니다");
+                return "/auth/LoginForm.jsp";
             }
         }
     }

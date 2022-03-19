@@ -22,8 +22,10 @@
 </head>
 <body style="margin-right: 25%; margin-left:25%; margin-top: 10%;">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <jsp:useBean id="alert" scope="request" class="java.lang.String" />
 
     <h2 style="font-weight: bold;">JOIN US</h2>
+    <p style="color: red;">${requestScope.alert}</p>
     <form class="row g-3" action="join.do" method="post">
         <div class="col-12">
             <label for="inputId" class="form-label">아이디</label>

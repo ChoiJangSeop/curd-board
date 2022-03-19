@@ -24,11 +24,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
-<body>
+<body style="margin-right: 25%; margin-left:25%; margin-top: 10%;">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <jsp:include page="../feed/Header.jsp" />
 
-    <form action='login.do' method='post' style="margin-left:25%; margin-right:25%;">
+    <jsp:useBean id="alert" scope="request" class="java.lang.String" />
+
+    <h2 style="font-weight: bold;">LOGIN</h2>
+    <p style="color: red;">${requestScope.alert}</p>
+    <form action='login.do' method='post'>
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">아이디 ID</label>
             <input type="text" name="id" class="form-control" id="formGroupExampleInput">
