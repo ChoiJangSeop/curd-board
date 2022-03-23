@@ -20,16 +20,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
-<body>
+<div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <jsp:include page="Header.jsp" />
-
+    <div class="m-3">
     <table class="table">
         <thead>
         <tr>
             <th scope="col-xs-1">#</th>
-            <th scope="col-xs-6">Title</th>
+            <th scope="col-xs-4">Title</th>
             <th scope="col-xs-2">Created Date</th>
             <th scope="col-xs-2">Writer</th>
             <th scope="col-xs-1">Views</th>
@@ -48,5 +48,6 @@
         </c:forEach>
         </tbody>
     </table>
+    </div>
 </body>
 </html>

@@ -21,16 +21,29 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <jsp:include page="Header.jsp" />
+    <jsp:useBean id="authority" scope="request" class="java.lang.String" />
 
     <form action="add.do" method="post">
-        <div class="input-group mb-3">
-            <input type="text" name="title" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <Button type="submit" class="btn btn-primary" id="button-addon2">등록</Button>
+        <div class="row m-3" >
+            <label for="inputTitle" class="col-sm-1 col-form-label" style="font-weight: bold;">제목</label>
+            <div class="col-sm-11">
+                <input type="text" class="form-control" id="inputTitle" name="title">
+            </div>
         </div>
-        <div class="input-group">
-            <span class="input-group-text">글쓰기</span>
-            <textarea type="text" name="content" class="form-control" aria-label="With textarea"></textarea>
+        <div class="row m-3" style="height: 400px;">
+            <label for="inputContent" class="col-sm-1 col-form-label" style="font-weight: bold;">내용</label>
+            <div class="col-sm-11">
+                <textarea class="form-control h-100" name="content" id="inputContent" rows="3"></textarea>
+            </div>
         </div>
+        <div class="row m-3" >
+            <label for="inputPassword" class="col-sm-1 col-form-label" style="font-weight: bold;">비밀번호</label>
+            <div class="col-sm-3">
+                <input type="password" name="password" class="form-control" id="inputPassword" ${requestScope.authority}>
+            </div>
+            <button type="submit" class="btn btn-primary col-sm-1">생성</button>
+        </div>
+
     </form>
 </body>
 </html>

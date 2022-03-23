@@ -18,7 +18,8 @@ public class FeedAddController implements Controller, DataBinding {
     @Override
     public Object[] getDataBinders() {
         return new Object[] {
-          "feed", crud_board.vo.Feed.class
+                "feed", crud_board.vo.Feed.class,
+                "password", String.class
         };
     }
 
@@ -26,11 +27,22 @@ public class FeedAddController implements Controller, DataBinding {
     public String execute(Map<String, Object> model) throws Exception {
 
         Feed feed = (Feed) model.get("feed");
+        String password = (String) model.get("password");
         HttpSession session = (HttpSession) model.get("session");
 
         if (feed.getTitle() == null) {
+            if (session.getAttribute("loginUser").equals("익명")) {
+                model.put("authority", "");
+            } else {
+                model.put("authority", "disabled");
+            }
+
             return "/feed/FeedAddForm.jsp";
         } else {
+            if (session.getAttribute("loginUser").equals("익명")) {
+                feed.setWriter("익명" + password);
+            }
+
             feedDao.insert(feed, session);
             return "redirect:main.do";
         }

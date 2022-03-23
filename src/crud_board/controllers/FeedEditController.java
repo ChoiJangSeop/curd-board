@@ -30,9 +30,17 @@ public class FeedEditController implements Controller, DataBinding {
         int no = (Integer) model.get("no");
 
         if (editFeed.getTitle() == null) {
-            model.put("editFeed", peedDao.selectOne(no));
+            Feed feed = peedDao.selectOne(no);
+            String content = feed.getContent();
+
+            feed.setContent(content.replace("<br>", "\r\n"));
+
+            model.put("editFeed", feed);
             return "/feed/FeedEditForm.jsp";
         } else {
+            String content = editFeed.getContent();
+            editFeed.setContent(content.replace("\r\n", "<br>"));
+
             peedDao.update(editFeed);
             return "redirect:content.do?no="+ editFeed.getNo();
         }

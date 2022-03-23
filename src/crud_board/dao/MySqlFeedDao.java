@@ -96,12 +96,20 @@ public class MySqlFeedDao {
         PreparedStatement stmt = null;
 
         try {
+            String writer = "";
+
+            if (feed.getWriter() != null) {
+                writer = feed.getWriter();
+            } else {
+                writer = (String) session.getAttribute("loginUser");
+            }
+
             conn = ds.getConnection();
             stmt = conn.prepareStatement("INSERT INTO peeds (TITLE, CONTENT, WRITER, CRE_DATE) " +
                     "VALUES (?, ?, ?, NOW())");
             stmt.setString(1, feed.getTitle());
-            stmt.setString(2, feed.getContent());
-            stmt.setString(3, (String) session.getAttribute("loginUser"));
+            stmt.setString(2, feed.getContent().replace("\r\n", "<br>"));
+            stmt.setString(3, writer);
             stmt.executeUpdate();
 
         } catch (Exception e) {}

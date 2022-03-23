@@ -24,17 +24,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <jsp:useBean id="feed" scope="request" class="crud_board.vo.Feed" />
     <jsp:useBean id="authority" scope="request" class="java.lang.String" />
+    <jsp:useBean id="alert" scope="request" class="java.lang.String"/>
     <jsp:include page="Header.jsp" />
 
-    <div class="card">
-        <div class="card-header">
+    <div class="card m-3">
+        <div class="card-header" style="font-weight: bold;">
             ${requestScope.feed.getTitle()}
         </div>
-        <div class="card-body">
+        <div class="card-body" style="height: 400px;">
             <p class="card-text">${requestScope.feed.getContent()}</p>
-            <a href="main.do" class="btn btn-primary">목록</a>
-            <a href="edit.do?no=${requestScope.feed.getNo()}" class="btn btn-danger ${requestScope.authority}">수정</a>
         </div>
+        <form action="content.do" method="post" class="row g-3 m-3">
+            <div class="col-auto">
+                <input type="password" name="password" class="form-control" value="default" ${requestScope.authority}>
+            </div>
+            <div class="col-auto">
+                <input type="hidden" name="no" class="form-control" value="${requestScope.feed.getNo()}">
+                <input type="submit" class="btn btn-danger" value="수정">
+            </div>
+            <div class="col-auto">
+                <a href="main.do" class="btn btn-primary">목록</a>
+            </div>
+            <div class="col-auto">
+                <p style="color: red;">${requestScope.alert}</p>
+            </div>
+        </form>
     </div>
+
 </body>
 </html>

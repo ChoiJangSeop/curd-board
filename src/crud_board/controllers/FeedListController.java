@@ -42,6 +42,11 @@ public class FeedListController implements Controller, DataBinding {
                 if (text.trim().length() == 0) break;
 
                 String title = feed.getTitle().trim();
+                String writer = feed.getWriter();
+
+                if (writer.startsWith("익명")) {
+                    feed.setWriter("익명");
+                }
 
                 if (title.contains(text.trim())) {
                     searchFeeds.add(feed);
@@ -49,6 +54,12 @@ public class FeedListController implements Controller, DataBinding {
             }
             model.put("feeds", searchFeeds);
         } else {
+            for (Feed feed : feeds) {
+                if (feed.getWriter().startsWith("익명")) {
+                    feed.setWriter("익명");
+                }
+            }
+
             model.put("feeds", feeds);
         }
 
