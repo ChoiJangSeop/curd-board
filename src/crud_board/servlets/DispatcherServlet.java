@@ -2,9 +2,11 @@ package crud_board.servlets;
 
 import crud_board.bind.DataBinding;
 import crud_board.bind.ServletRequestDataBinder;
+import crud_board.context.ApplicationContext;
 import crud_board.controllers.*;
 import crud_board.dao.MySqlFeedDao;
 import crud_board.dao.MySqlUserDao;
+import crud_board.listener.ContextLoaderListener;
 import crud_board.vo.Feed;
 import crud_board.vo.User;
 
@@ -29,17 +31,16 @@ public class DispatcherServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
 
+        HttpSession session = request.getSession();
         String servletPath = request.getServletPath();
-        HashMap<String, Object> model = new HashMap<>();
-
 
         try {
-            HttpSession session = request.getSession();
-
-            ServletContext sc = request.getServletContext();
-
-            Controller pageController = (Controller) sc.getAttribute(servletPath);
+            HashMap<String, Object> model = new HashMap<>();
             model.put("session", session);
+
+            ApplicationContext ctx = ContextLoaderListener.getApplicationContext();
+
+            Controller pageController = (Controller) ctx.getBean(servletPath);
 
             if (pageController instanceof DataBinding) {
                 prepareRequestData(request, model, (DataBinding) pageController);

@@ -37,7 +37,7 @@
         </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary">회원가입</button>
-            <input type="reset" class="btn btn-danger" href="login.do" value="취소">
+            <a href="login.do" class="btn btn-danger">취소</a>
         </div>
     </form>
 </body>
