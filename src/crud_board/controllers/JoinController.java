@@ -35,9 +35,8 @@ public class JoinController implements Controller, DataBinding {
             if (newUser.getId() == null) {
                 return "/auth/JoinForm.jsp";
             }
-
+            // alert some input is blank
             if (newUser.getId().equals("") || newUser.getPassword().equals("") || passwordCheck.equals("")) {
-                // TODO alert some input is blank
                 model.clear();
                 model.put("alert", "일부 항목이 공백입니다");
                 return "/auth/JoinForm.jsp";
@@ -45,9 +44,15 @@ public class JoinController implements Controller, DataBinding {
 
             // checking id is duplicate
             if (userDao.existId(newUser.getId())) {
-                // TODO alert duplicate issue
                 model.clear();
                 model.put("alert", "이미 존재하는 아이디입니다");
+                return "/auth/JoinForm.jsp";
+            }
+
+            // checking id is valid
+            if (newUser.getId().length() < 6) {
+                model.clear();
+                model.put("alert", "아이디는 6자 이상이어야 합니다");
                 return "/auth/JoinForm.jsp";
             }
 
@@ -56,6 +61,13 @@ public class JoinController implements Controller, DataBinding {
                 // TODO alert password check invalid issue
                 model.clear();
                 model.put("alert", "비밀번호와 비밀번호 확인일 일치하지 않습니다");
+                return "/auth/JoinForm.jsp";
+            }
+
+            // checking password is valid
+            if (newUser.getPassword().length() < 9) {
+                model.clear();
+                model.put("alert", "비밀번호는 9자 이상이어야 합니다.");
                 return "/auth/JoinForm.jsp";
             }
 
