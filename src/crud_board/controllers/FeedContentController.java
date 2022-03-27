@@ -1,7 +1,9 @@
 package crud_board.controllers;
 
 import crud_board.bind.DataBinding;
+import crud_board.dao.MySqlCommentDao;
 import crud_board.dao.MySqlFeedDao;
+import crud_board.vo.Comment;
 import crud_board.vo.Feed;
 
 import javax.servlet.http.HttpSession;
@@ -10,9 +12,15 @@ import java.util.Map;
 public class FeedContentController implements Controller, DataBinding {
 
     MySqlFeedDao feedDao;
+    MySqlCommentDao commentDao;
 
     public FeedContentController setFeedDao(MySqlFeedDao feedDao) {
         this.feedDao = feedDao;
+        return this;
+    }
+
+    public FeedContentController setCommentDao(MySqlCommentDao commentDao) {
+        this.commentDao = commentDao;
         return this;
     }
 
@@ -20,7 +28,8 @@ public class FeedContentController implements Controller, DataBinding {
     public Object[] getDataBinders() {
         return new Object[] {
                 "no", Integer.class,
-                "password", String.class
+                "password", String.class,
+                "comment", String.class
         };
     }
 
@@ -31,28 +40,38 @@ public class FeedContentController implements Controller, DataBinding {
         HttpSession session = (HttpSession) model.get("session");
         Feed feed = feedDao.selectOne(no);
 
-        // check authority to modify
+        String loginUser = (String) session.getAttribute("loginUser");
+
+        // 1. check authority to modify when click modify button
         if (model.get("password") != null) {
             String password = (String) model.get("password");
 
             if (feed.getWriter().startsWith("익명")) {
-                if (!password.equals(feed.getWriter().substring(2))) {
-                    model.put("feed", feedDao.selectOne(no));
-                    model.put("alert", "수정 권한 비밀번호가 틀렸습니다");
-                    return "/feed/FeedContent.jsp";
+                if (password.equals(feed.getWriter().substring(2))) {
+                    return "redirect:edit.do?no="+no;
                 }
             } else {
-                if (!feed.getWriter().equals(session.getAttribute("loginUser"))) {
-                    model.put("feed", feedDao.selectOne(no));
-                    model.put("alert", "수정 권한 비밀번호가 틀렸습니다");
-                    return "/feed/FeedContent.jsp";
+                if (feed.getWriter().equals(session.getAttribute("loginUser"))) {
+                    return "redirect:edit.do?no="+no;
                 }
             }
 
-            return "redirect:edit.do?no="+no;
+            model.put("alert", "수정 권한이 없습니다");
         }
 
-        String loginUser = (String) session.getAttribute("loginUser");
+        // 2. create comments
+        if (model.get("comment") != null) {
+            String content = (String) model.get("comment");
+
+            Comment comment = new Comment()
+                    .setContent(content)
+                    .setWriter(loginUser);
+
+            commentDao.insert(comment, no);
+        }
+
+
+        // 3. enter content page
 
         // check authority to edit
         if (!feed.getWriter().startsWith("익명")) {
@@ -63,8 +82,11 @@ public class FeedContentController implements Controller, DataBinding {
 
         // update views
         feedDao.updateViews(no);
+        Integer counts = Integer.valueOf(commentDao.countComments(no));
 
         // feed content
+        model.put("comments", commentDao.selectList(no));
+        model.put("counts", counts.toString());
         model.put("feed", feedDao.selectOne(no));
         return "/feed/FeedContent.jsp";
     }

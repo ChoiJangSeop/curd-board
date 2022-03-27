@@ -23,13 +23,15 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <jsp:useBean id="feed" scope="request" class="crud_board.vo.Feed" />
+    <jsp:useBean id="counts" scope="request" class="java.lang.String" />
     <jsp:useBean id="authority" scope="request" class="java.lang.String" />
     <jsp:useBean id="alert" scope="request" class="java.lang.String"/>
     <jsp:include page="Header.jsp" />
 
     <div class="card m-3">
-        <div class="card-header" style="font-weight: bold;">
-            ${requestScope.feed.getTitle()}
+        <div class="card-header" >
+            <div style="font-weight: bold; font-size: 20px;">${requestScope.feed.getTitle()}</div>
+            <div style="align-content: end;">${requestScope.feed.getWriter()} at ${requestScope.feed.getCreatedDate()}</div>
         </div>
         <div class="card-body" style="height: 400px;">
             <p class="card-text">${requestScope.feed.getContent()}</p>
@@ -49,6 +51,44 @@
                 <p style="color: red;">${requestScope.alert}</p>
             </div>
         </form>
+    </div>
+
+    <form acction="content.do" method="post" class="mx-3">
+        <div class="input-group">
+            <input type="hidden" name="no" value="${feed.getNo()}">
+            <input type="text" class="form-control" name="comment" id="inputComment">
+            <button class="btn btn-primary" type="submit" id="button-addon2">등록</button>
+        </div>
+    </form>
+
+    <div class="mx-3">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col-xs-2">댓글 ${requestScope.counts}개</th>
+                <th scope="col-xs-7"></th>
+                <th scope="col-xs-2"></th>
+                <th scope="col-xs-1"></th>
+
+            </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="comment" items='${comments}' varStatus="status">
+                    <tr>
+                        <td>${comment.getWriter()}</td>
+                        <td>${comment.getContent()}</td>
+                        <td>${comment.getCreatedDate()}</td>
+                        <td>
+                            <form action="comment_delete.do" method="post">
+                                <input type="hidden" name="cno" value="${comment.getNo()}">
+                                <input type="hidden" name="fno" value="${feed.getNo()}">
+
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
     </div>
 
 </body>

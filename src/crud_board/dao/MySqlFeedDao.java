@@ -32,7 +32,7 @@ public class MySqlFeedDao {
         try {
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT PNO, TITLE, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds ORDER BY PNO DESC");
+            rs = stmt.executeQuery("SELECT PNO, TITLE, WRITER, CRE_DATE, LIKES, VIEWS FROM FEEDS ORDER BY PNO DESC");
 
             ArrayList<Feed> feeds = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class MySqlFeedDao {
         try {
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT PNO, TITLE, CONTENT, WRITER, CRE_DATE, LIKES, VIEWS FROM peeds WHERE PNO=" + no);
+            rs = stmt.executeQuery("SELECT PNO, TITLE, CONTENT, WRITER, CRE_DATE, LIKES, VIEWS FROM FEEDS WHERE PNO=" + no);
 
             if (rs.next()) {
                 feed = new Feed()
@@ -105,7 +105,7 @@ public class MySqlFeedDao {
             }
 
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO peeds (TITLE, CONTENT, WRITER, CRE_DATE) " +
+            stmt = conn.prepareStatement("INSERT INTO FEEDS (TITLE, CONTENT, WRITER, CRE_DATE) " +
                     "VALUES (?, ?, ?, NOW())");
             stmt.setString(1, feed.getTitle());
             stmt.setString(2, feed.getContent().replace("\r\n", "<br>"));
@@ -126,7 +126,7 @@ public class MySqlFeedDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("DELETE FROM peeds WHERE PNO=?");
+            stmt = conn.prepareStatement("DELETE FROM FEEDS WHERE PNO=?");
             stmt.setInt(1, no);
             stmt.executeUpdate();
         } catch (Exception e) { throw e; }
@@ -143,7 +143,7 @@ public class MySqlFeedDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("UPDATE peeds SET TITLE=?, CONTENT=? WHERE PNO=?");
+            stmt = conn.prepareStatement("UPDATE FEEDS SET TITLE=?, CONTENT=? WHERE PNO=?");
             stmt.setString(1, feed.getTitle());
             stmt.setString(2, feed.getContent());
             stmt.setInt(3, feed.getNo());
@@ -163,7 +163,24 @@ public class MySqlFeedDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("UPDATE peeds SET VIEWS = VIEWS + 1 WHERE PNO=?");
+            stmt = conn.prepareStatement("UPDATE FEEDS SET VIEWS = VIEWS + 1 WHERE PNO=?");
+            stmt.setInt(1, no);
+
+            return stmt.executeUpdate();
+        } catch (Exception e) { throw e; }
+        finally {
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+        }
+    }
+
+    public int updateLikes(int no) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.prepareStatement("UPDATE FEEDS SET LIKES= LIKES + 1 WHERE PNO=?");
             stmt.setInt(1, no);
 
             return stmt.executeUpdate();

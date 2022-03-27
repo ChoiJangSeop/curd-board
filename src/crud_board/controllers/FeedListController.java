@@ -31,10 +31,6 @@ public class FeedListController implements Controller, DataBinding {
         List<Feed> feeds = feedDao.selectList();
         String text = (String) model.get("text");
 
-        if (session.getAttribute("loginUser") == null) {
-            return "redirect:../auth/login.do";
-        }
-
         if (text != null) {
             List<Feed> searchFeeds = new ArrayList<>();
 

@@ -48,11 +48,13 @@ public class DispatcherServlet extends HttpServlet {
 
             String viewUrl = "";
 
-            if (pageController != null) {
+            if (!servletPath.startsWith("/auth") && session.getAttribute("loginUser") == null) {
+                viewUrl = "redirect:../auth/login.do";
+            } else if (pageController != null) {
                 viewUrl = pageController.execute(model);
-            } else {
-                viewUrl = "error.jsp";
             }
+
+
 
             for (String key : model.keySet()) {
                 request.setAttribute(key, model.get(key));
