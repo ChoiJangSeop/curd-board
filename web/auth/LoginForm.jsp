@@ -45,7 +45,7 @@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="anonymous" id="gridRadios1" value="true">
                 <label class="form-check-label" for="gridRadios1">
-                    익명으로 시작
+                    익명(비회원)으로 시작
                 </label>
             </div>
         </div>

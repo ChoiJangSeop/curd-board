@@ -70,7 +70,6 @@ public class FeedContentController implements Controller, DataBinding {
             commentDao.insert(comment, no);
         }
 
-
         // 3. enter content page
 
         // check authority to edit
@@ -84,10 +83,15 @@ public class FeedContentController implements Controller, DataBinding {
         feedDao.updateViews(no);
         Integer counts = Integer.valueOf(commentDao.countComments(no));
 
+        // parse feed writer name
+        if (feed.getWriter().startsWith("익명")) {
+            feed.setWriter("익명");
+        }
+
         // feed content
         model.put("comments", commentDao.selectList(no));
         model.put("counts", counts.toString());
-        model.put("feed", feedDao.selectOne(no));
+        model.put("feed", feed);
         return "/feed/FeedContent.jsp";
     }
 }

@@ -54,8 +54,6 @@ public class DispatcherServlet extends HttpServlet {
                 viewUrl = pageController.execute(model);
             }
 
-
-
             for (String key : model.keySet()) {
                 request.setAttribute(key, model.get(key));
             }
