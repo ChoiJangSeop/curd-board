@@ -19,8 +19,12 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+
 </head>
-<body>
+<body style="background-color: #e9ecef;">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <jsp:useBean id="feed" scope="request" class="crud_board.vo.Feed" />
     <jsp:useBean id="counts" scope="request" class="java.lang.String" />
@@ -28,68 +32,81 @@
     <jsp:useBean id="alert" scope="request" class="java.lang.String"/>
     <jsp:include page="Header.jsp" />
 
-    <div class="card m-3">
-        <div class="card-header" >
-            <div style="font-weight: bold; font-size: 20px;">${requestScope.feed.getTitle()}</div>
-            <div style="align-content: end;">${requestScope.feed.getWriter()} at ${requestScope.feed.getCreatedDate()}</div>
+    <div class="row m-3">
+        <div class="col-2">
+            <jsp:include page="SideBar.jsp" />
         </div>
-        <div class="card-body" style="height: 400px;">
-            <p class="card-text">${requestScope.feed.getContent()}</p>
-        </div>
-        <form action="content.do" method="post" class="row g-3 m-3">
-            <div class="col-auto">
-                <input type="password" name="password" class="form-control" value="default" ${requestScope.authority}>
+        <div class="col-8">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header" >
+                    <div style="font-weight: bold; font-size: 20px;">${requestScope.feed.getTitle()}</div>
+                    <div style="align-content: end;">${requestScope.feed.getWriter()} at ${requestScope.feed.getCreatedDate()}</div>
+                </div>
+                <div class="card-body" style="height: 400px;">
+                    <p class="card-text">${requestScope.feed.getContent()}</p>
+                </div>
+                <form action="content.do" method="post" class="row g-3 m-3">
+                    <div class="col-auto">
+                        <input type="password" name="password" class="form-control" value="default" ${requestScope.authority}>
+                    </div>
+                    <div class="col-auto">
+                        <input type="hidden" name="no" class="form-control" value="${requestScope.feed.getNo()}">
+                        <input type="submit" class="btn btn-danger" value="수정">
+                    </div>
+                    <div class="col-auto">
+                        <a href="main.do" class="btn btn-primary">목록</a>
+                    </div>
+                    <div class="col-auto">
+                        <p style="color: red;">${requestScope.alert}</p>
+                    </div>
+                </form>
             </div>
-            <div class="col-auto">
-                <input type="hidden" name="no" class="form-control" value="${requestScope.feed.getNo()}">
-                <input type="submit" class="btn btn-danger" value="수정">
-            </div>
-            <div class="col-auto">
-                <a href="main.do" class="btn btn-primary">목록</a>
-            </div>
-            <div class="col-auto">
-                <p style="color: red;">${requestScope.alert}</p>
-            </div>
-        </form>
-    </div>
 
-    <form acction="content.do" method="post" class="mx-3">
-        <div class="input-group">
-            <input type="hidden" name="no" value="${feed.getNo()}">
-            <input type="text" class="form-control" name="comment" id="inputComment">
-            <button class="btn btn-primary" type="submit" id="button-addon2">등록</button>
-        </div>
-    </form>
+            <form acction="content.do" method="post">
+                <div class="input-group shadow-sm">
+                    <input type="hidden" name="no" value="${feed.getNo()}">
+                    <input type="text" class="form-control" name="comment" id="inputComment">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">등록</button>
+                </div>
+            </form>
 
-    <div class="mx-3">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col-xs-2">댓글 ${requestScope.counts}개</th>
-                <th scope="col-xs-7"></th>
-                <th scope="col-xs-2"></th>
-                <th scope="col-xs-1"></th>
-
-            </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="comment" items='${comments}' varStatus="status">
+            <div>
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>${comment.getWriter()}</td>
-                        <td>${comment.getContent()}</td>
-                        <td>${comment.getCreatedDate()}</td>
-                        <td>
-                            <form action="comment_delete.do" method="post">
-                                <input type="hidden" name="cno" value="${comment.getNo()}">
-                                <input type="hidden" name="fno" value="${feed.getNo()}">
+                        <th scope="col-xs-2">댓글 ${requestScope.counts}개</th>
+                        <th scope="col-xs-7"></th>
+                        <th scope="col-xs-2"></th>
+                        <th scope="col-xs-1"></th>
 
-                            </form>
-                        </td>
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="comment" items='${comments}' varStatus="status">
+                        <tr>
+                            <td>${comment.getWriter()}</td>
+                            <td>${comment.getContent()}</td>
+                            <td>${comment.getCreatedDate()}</td>
+                            <td>
+                                <form action="comment_delete.do" method="post">
+                                    <input type="hidden" name="cno" value="${comment.getNo()}">
+                                    <input type="hidden" name="fno" value="${feed.getNo()}">
+
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-2">
+            <jsp:include page="LoginInfo.jsp"/>
+            <jsp:include page="RecentSearch.jsp"/>
+        </div>
     </div>
+
+
 
 </body>
 </html>

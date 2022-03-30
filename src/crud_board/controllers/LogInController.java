@@ -6,6 +6,8 @@ import crud_board.vo.User;
 
 import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class LogInController implements Controller, DataBinding {
@@ -36,6 +38,9 @@ public class LogInController implements Controller, DataBinding {
         if (anonymous != null && anonymous.equals("true")) {
             HttpSession session = (HttpSession) model.get("session");
             session.setAttribute("loginUser", "익명");
+
+            session.setAttribute("searchLog", new ArrayList<String>());
+
             return "redirect:../feed/main.do";
         }
 
@@ -54,6 +59,7 @@ public class LogInController implements Controller, DataBinding {
                 User loginUser = userDao.selectOne(no);
 
                 session.setAttribute("loginUser", loginUser.getName());
+                session.setAttribute("searchLog", new ArrayList<String>());
                 return "redirect:../feed/main.do";
             } else {
                 model.put("alert", "아이디 또는 비밀번호가 일치하지 않습니다");

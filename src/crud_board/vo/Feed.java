@@ -11,6 +11,7 @@ public class Feed {
     public String writer;
     public int likes;
     public int views;
+    public String tags="";
 
     public Feed setNo(int no) {
         this.no = no; return this;
@@ -54,4 +55,11 @@ public class Feed {
     }
 
     public int getViews() { return views; }
+
+    public Feed setTags(String tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public String getTags() { return tags; }
 }

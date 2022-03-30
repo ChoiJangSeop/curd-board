@@ -24,32 +24,56 @@
     <jsp:include page="Header.jsp" />
     <jsp:useBean id="editFeed" scope="request" class="crud_board.vo.Feed" />
 
-    <form action="edit.do" method="post">
-        <div class="row m-3" >
-            <label for="inputTitle" class="col-sm-1 col-form-label" style="font-weight: bold;">제목</label>
-            <div class="col-sm-11">
-                <input type="text" class="form-control" id="inputTitle" name="title" value="${requestScope.editFeed.getTitle()}">
-            </div>
-        </div>
-        <div class="row m-3" style="height: 400px;">
-            <label for="inputContent" class="col-sm-1 col-form-label" style="font-weight: bold;">내용</label>
-            <div class="col-sm-11">
-                <textarea class="form-control h-100" name="content" id="inputContent" rows="3">${requestScope.editFeed.getContent()}</textarea>
-            </div>
-        </div>
-        <input type="hidden" name="no" value="${requestScope.editFeed.getNo()}">
-        <div class="row m-3" >
-            <label for="edit" class="col-sm-1 col-form-label" style="font-weight: bold;">수정하기</label>
-            <input type="submit" class="btn btn-primary col-sm-1" id="edit" value="수정">
-        </div>
-    </form>
+
     <div class="row m-3">
-        <form action="delete.do" method="post">
-            <label for="delete" class="col-sm-1 col-form-label" style="font-weight: bold;">삭제하기</label>
-            <input type="hidden" name="no" value="${requestScope.editFeed.getNo()}">
-            <input type="submit" id ="delete" class="btn btn-danger" value="삭제">
-        </form>
+        <div class="col-2">
+            <jsp:include page="SideBar.jsp"/>
+        </div>
+        <div class="card shadow-sm col-8 rounded">
+            <div class="card-header" style="font-weight: bold;">
+                <i class="bi bi-journal-plus"></i> 피드 수정하기
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <form action="edit.do" method="post">
+                        <div class="row mb-3" >
+                            <label for="inputTitle" class="col-sm-1 col-form-label" style="font-weight: bold;">제목</label>
+                            <div class="col-sm-11">
+                                <input type="text" class="form-control" id="inputTitle" name="title" value="${requestScope.editFeed.getTitle()}">
+                            </div>
+                        </div>
+                        <div class="row mb-3" style="height: 400px;">
+                            <label for="inputContent" class="col-sm-1 col-form-label" style="font-weight: bold;">내용</label>
+                            <div class="col-sm-11">
+                                <textarea class="form-control h-100" name="content" id="inputContent" rows="3">${requestScope.editFeed.getContent()}</textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" name="no" value="${requestScope.editFeed.getNo()}">
+                        <div class="row mb-3" >
+                            <label for="edit" class="col-sm-1 col-form-label" style="font-weight: bold;">수정</label>
+                            <input type="submit" class="btn btn-primary col-sm-1" id="edit" value="수정">
+                        </div>
+                    </form>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <form action="delete.do" method="post">
+                            <label for="delete" class="col-sm-1 col-form-label" style="font-weight: bold;">삭제하기</label>
+                            <input type="hidden" name="no" value="${requestScope.editFeed.getNo()}">
+                            <input type="submit" id ="delete" class="btn btn-danger" value="삭제">
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-2">
+            <jsp:include page="LoginInfo.jsp"/>
+            <jsp:include page="RecentSearch.jsp"/>
+        </div>
     </div>
+
+
+
 
 </body>
 </html>
