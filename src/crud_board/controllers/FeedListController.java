@@ -21,7 +21,8 @@ public class FeedListController implements Controller, DataBinding {
     @Override
     public Object[] getDataBinders() {
         return new Object[] {
-                "text", String.class
+                "text", String.class,
+                "record", String.class
         };
     }
 
@@ -30,10 +31,12 @@ public class FeedListController implements Controller, DataBinding {
         HttpSession session = (HttpSession) model.get("session");
         List<Feed> feeds = feedDao.selectList();
         String text = (String) model.get("text");
+        String record = (String) model.get("record");
 
         if (text != null) {
             List<Feed> searchFeeds = new ArrayList<>();
 
+            // search feed
             for (Feed feed : feeds) {
                 if (text.trim().length() == 0) break;
 
@@ -49,6 +52,19 @@ public class FeedListController implements Controller, DataBinding {
                 }
             }
             model.put("feeds", searchFeeds);
+
+            // update searchLog
+            if (record.equals("true")) {
+                List<String> searchLog = (List<String>) session.getAttribute("searchLog");
+                searchLog.add(text);
+
+                // searchLog's size maintain 10
+                if (searchLog.size() == 11) {
+                    searchLog.remove(0);
+                }
+
+                session.setAttribute("searchLog", searchLog);
+            }
         } else {
             for (Feed feed : feeds) {
                 if (feed.getWriter().startsWith("익명")) {
