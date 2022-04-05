@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 
+<jsp:useBean id="alert" scope="request" class="java.lang.String"/>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -32,6 +34,7 @@
             <jsp:include page="SideBar.jsp" />
         </div>
         <div class="col-8">
+            <div class="mb-3" style="text-align: center;">${alert}</div>
             <c:forEach var="feed" items="${feeds}" varStatus="status">
                 <div class="card mb-3 shadow-sm rounded">
                     <div class="card-body">

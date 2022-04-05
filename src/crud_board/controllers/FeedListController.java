@@ -51,6 +51,8 @@ public class FeedListController implements Controller, DataBinding {
                     searchFeeds.add(feed);
                 }
             }
+
+            model.put("alert", "'" + text + "' 검색결과, " + searchFeeds.size() + "개의 피드가 검색되었습니다");
             model.put("feeds", searchFeeds);
 
             // update searchLog
@@ -72,9 +74,11 @@ public class FeedListController implements Controller, DataBinding {
                 }
             }
 
+            model.put("alert", "");
             model.put("feeds", feeds);
         }
 
+        model.put("mostViewFeeds", feedDao.selectMostViewList());
         model.put("loginUser", session.getAttribute("loginUser"));
         return "/feed/FeedList.jsp";
     }
