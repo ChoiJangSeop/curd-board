@@ -34,7 +34,7 @@
             <jsp:include page="SideBar.jsp" />
         </div>
         <div class="col-8">
-            <div class="mb-3" style="text-align: center;">${alert}</div>
+            <div style="text-align: center;">${alert}</div>
             <c:forEach var="feed" items="${feeds}" varStatus="status">
                 <div class="card mb-3 shadow-sm rounded">
                     <div class="card-body">

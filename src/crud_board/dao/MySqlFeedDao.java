@@ -158,15 +158,27 @@ public class MySqlFeedDao {
     }
 
     public int updateViews(int no) throws Exception {
+
+        int MOST_VIEWS = 20;
+
         Connection conn = null;
         PreparedStatement stmt = null;
+        PreparedStatement stmtMostView = null;
 
         try {
             conn = ds.getConnection();
             stmt = conn.prepareStatement("UPDATE FEEDS SET VIEWS = VIEWS + 1 WHERE PNO=?");
             stmt.setInt(1, no);
+            int count = stmt.executeUpdate();
 
-            return stmt.executeUpdate();
+            stmtMostView = conn.prepareStatement(
+                    "INSERT INTO MOST_VIEW_FEEDS (PNO) " +
+                        "SELECT PNO FROM FEEDS WHERE PNO=? AND VIEWS=?");
+            stmtMostView.setInt(1, no);
+            stmtMostView.setInt(2, MOST_VIEWS);
+            stmtMostView.executeUpdate();
+
+            return count;
         } catch (Exception e) { throw e; }
         finally {
             try { if (stmt != null) stmt.close(); } catch (Exception e) {}
@@ -190,4 +202,33 @@ public class MySqlFeedDao {
             try { if (conn != null) conn.close(); } catch (Exception e) {}
         }
     }
+
+    public List<Feed> selectMostViewList() throws Exception {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT PNO FROM MOST_VIEW_FEEDS");
+
+            List<Feed> feeds = new ArrayList<>();
+
+            while (rs.next()) {
+                int no = rs.getInt("PNO");
+                Feed feed = selectOne(no);
+
+                feeds.add(feed);
+            }
+            return feeds;
+        } catch (Exception e) { throw e; }
+        finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) {}
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+        }
+    }
+
+
 }

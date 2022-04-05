@@ -92,6 +92,7 @@ public class FeedContentController implements Controller, DataBinding {
         model.put("comments", commentDao.selectList(no));
         model.put("counts", counts.toString());
         model.put("feed", feed);
+        model.put("mostViewFeeds", feedDao.selectMostViewList());
         return "/feed/FeedContent.jsp";
     }
 }

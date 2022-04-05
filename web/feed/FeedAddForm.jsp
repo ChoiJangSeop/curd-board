@@ -29,7 +29,6 @@
 
     <div class="row m-3">
         <div class="col-2">
-            <jsp:include page="SideBar.jsp"/>
         </div>
         <div class="card shadow-sm col-8 rounded">
             <div class="card-header" style="font-weight: bold;">
