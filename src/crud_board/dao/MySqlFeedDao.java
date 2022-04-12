@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class MySqlFeedDao {
+public class MySqlFeedDao implements FeedDao {
 
     private static final Logger LOG = Logger.getGlobal();
 
@@ -116,7 +116,29 @@ public class MySqlFeedDao {
         finally {
             try { if (stmt != null) stmt.close(); } catch (Exception e) {}
             try { if (conn != null) conn.close(); } catch (Exception e) {}
-            return 0;
+            return -1;
+        }
+    }
+
+    // overloading
+    public int insert(Feed feed) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO FEEDS (TITLE, CONTENT, WRITER, CRE_DATE) " +
+                    "VALUES (?, ?, ?, NOW())");
+            stmt.setString(1, feed.getTitle());
+            stmt.setString(2, feed.getContent().replace("\r\n", "<br>"));
+            stmt.setString(3, feed.getWriter());
+            return stmt.executeUpdate();
+
+        } catch (Exception e) {}
+        finally {
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            return -1;
         }
     }
 
@@ -133,7 +155,23 @@ public class MySqlFeedDao {
         finally {
             try { if (stmt != null) stmt.close(); } catch (Exception e) {}
             try { if (conn != null) conn.close(); } catch (Exception e) {}
-            return 0;
+            return -1;
+        }
+    }
+
+    public int deleteAll() throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement("DELETE FROM FEEDS");
+            return pstmt.executeUpdate();
+        } catch (Exception e) { throw e; }
+        finally {
+            try { if (pstmt != null) pstmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            return -1;
         }
     }
 
@@ -157,6 +195,7 @@ public class MySqlFeedDao {
         }
     }
 
+    // go to service
     public int updateViews(int no) throws Exception {
 
         int MOST_VIEWS = 20;
@@ -186,6 +225,7 @@ public class MySqlFeedDao {
         }
     }
 
+    // go to service
     public int updateLikes(int no) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -203,6 +243,7 @@ public class MySqlFeedDao {
         }
     }
 
+    // go to service
     public List<Feed> selectMostViewList() throws Exception {
         Connection conn = null;
         Statement stmt = null;

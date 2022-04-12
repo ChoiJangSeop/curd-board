@@ -9,6 +9,12 @@
         <res-auth>Container</res-auth>
     </resource-ref>
 
+    <resource-ref>
+        <res-ref-name>jdbc/crudboard_db_test</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/lib/application-context.properties</param-value>
