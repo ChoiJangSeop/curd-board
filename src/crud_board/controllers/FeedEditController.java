@@ -2,16 +2,23 @@ package crud_board.controllers;
 
 import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlFeedDao;
+import crud_board.service.FeedService;
 import crud_board.vo.Feed;
 
 import java.util.Map;
 
 public class FeedEditController implements Controller, DataBinding {
 
-    MySqlFeedDao peedDao;
-
+    //MySqlFeedDao feedService;
+    FeedService feedService;
+/*
     public FeedEditController setFeedDao(MySqlFeedDao peedDao) {
-        this.peedDao = peedDao;
+        this.feedService = peedDao;
+        return this;
+    }
+*/
+    public FeedEditController setFeedService(FeedService feedService) {
+        this.feedService = feedService;
         return this;
     }
 
@@ -26,11 +33,11 @@ public class FeedEditController implements Controller, DataBinding {
     @Override
     public String execute(Map<String, Object> model) throws Exception {
 
-        Feed editFeed = (Feed) model.get("editFeed");
+        Feed editedFeed = (Feed) model.get("editFeed");
         int no = (Integer) model.get("no");
 
-        if (editFeed.getTitle() == null) {
-            Feed feed = peedDao.selectOne(no);
+        if (editedFeed.getTitle() == null) {
+            Feed feed = feedService.selectById(no);
             String content = feed.getContent();
 
             feed.setContent(content.replace("<br>", "\r\n"));
@@ -38,11 +45,11 @@ public class FeedEditController implements Controller, DataBinding {
             model.put("editFeed", feed);
             return "/feed/FeedEditForm.jsp";
         } else {
-            String content = editFeed.getContent();
-            editFeed.setContent(content.replace("\r\n", "<br>"));
+            String content = editedFeed.getContent();
+            editedFeed.setContent(content.replace("\r\n", "<br>"));
 
-            peedDao.update(editFeed);
-            return "redirect:content.do?no="+ editFeed.getNo();
+            feedService.editFeed(editedFeed);
+            return "redirect:content.do?no="+ editedFeed.getNo();
         }
     }
 }

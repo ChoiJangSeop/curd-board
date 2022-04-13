@@ -3,6 +3,7 @@ package crud_board.controllers;
 import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlCommentDao;
 import crud_board.dao.MySqlFeedDao;
+import crud_board.service.FeedService;
 import crud_board.vo.Comment;
 import crud_board.vo.Feed;
 
@@ -11,16 +12,22 @@ import java.util.Map;
 
 public class FeedContentController implements Controller, DataBinding {
 
-    MySqlFeedDao feedDao;
+    //MySqlFeedDao feedDao;
     MySqlCommentDao commentDao;
-
+    FeedService feedService;
+/*
     public FeedContentController setFeedDao(MySqlFeedDao feedDao) {
         this.feedDao = feedDao;
         return this;
     }
-
+*/
     public FeedContentController setCommentDao(MySqlCommentDao commentDao) {
         this.commentDao = commentDao;
+        return this;
+    }
+
+    public FeedContentController setFeedService(FeedService feedService) {
+        this.feedService = feedService;
         return this;
     }
 
@@ -38,7 +45,8 @@ public class FeedContentController implements Controller, DataBinding {
 
         Integer no = (Integer) model.get("no");
         HttpSession session = (HttpSession) model.get("session");
-        Feed feed = feedDao.selectOne(no);
+        Feed feed = feedService.selectById(no);
+        //Feed feed = feedDao.selectOne(no);
 
         String loginUser = (String) session.getAttribute("loginUser");
 
@@ -80,7 +88,8 @@ public class FeedContentController implements Controller, DataBinding {
         }
 
         // update views
-        feedDao.updateViews(no);
+        //feedDao.updateViews(no);
+        feedService.updateViews(no);
         Integer counts = Integer.valueOf(commentDao.countComments(no));
 
         // parse feed writer name
@@ -92,7 +101,7 @@ public class FeedContentController implements Controller, DataBinding {
         model.put("comments", commentDao.selectList(no));
         model.put("counts", counts.toString());
         model.put("feed", feed);
-        model.put("mostViewFeeds", feedDao.selectMostViewList());
+        model.put("mostViewFeeds", feedService.selectMostViewList());
         return "/feed/FeedContent.jsp";
     }
 }

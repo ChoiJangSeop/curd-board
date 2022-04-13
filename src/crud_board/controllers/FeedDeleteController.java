@@ -2,17 +2,25 @@ package crud_board.controllers;
 
 import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlFeedDao;
+import crud_board.service.FeedService;
 
 import java.util.Map;
 
 public class FeedDeleteController implements Controller, DataBinding {
 
-    MySqlFeedDao feedDao;
-
+    //MySqlFeedDao feedDao;
+    FeedService feedService;
+/*
     public FeedDeleteController setFeedDao(MySqlFeedDao feedDao) {
         this.feedDao = feedDao;
         return this;
     }
+    */
+    public FeedDeleteController setFeedService(FeedService feedService) {
+        this.feedService = feedService;
+        return this;
+    }
+
 
     @Override
     public Object[] getDataBinders() {
@@ -24,7 +32,7 @@ public class FeedDeleteController implements Controller, DataBinding {
     @Override
     public String execute(Map<String, Object> model) throws Exception {
         int no = (Integer) model.get("no");
-        feedDao.delete(no);
+        feedService.deleteFeedById(no);
         return "redirect:main.do";
     }
 }

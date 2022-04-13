@@ -2,6 +2,7 @@ package crud_board.controllers;
 
 import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlFeedDao;
+import crud_board.service.FeedService;
 import crud_board.vo.Feed;
 
 import javax.servlet.http.HttpSession;
@@ -11,12 +12,20 @@ import java.util.Map;
 
 public class FeedListController implements Controller, DataBinding {
 
-    MySqlFeedDao feedDao;
+    //MySqlFeedDao feedDao;
+    FeedService feedService;
 
+    public FeedListController setFeedService(FeedService feedService) {
+        this.feedService = feedService;
+        return this;
+    }
+
+    /*
     public FeedListController setFeedDao(MySqlFeedDao feedDao) {
         this.feedDao = feedDao;
         return this;
     }
+     */
 
     @Override
     public Object[] getDataBinders() {
@@ -29,7 +38,7 @@ public class FeedListController implements Controller, DataBinding {
     @Override
     public String execute(Map<String, Object> model) throws Exception {
         HttpSession session = (HttpSession) model.get("session");
-        List<Feed> feeds = feedDao.selectList();
+        List<Feed> feeds = feedService.selectList();
         String text = (String) model.get("text");
         String record = (String) model.get("record");
 
@@ -78,7 +87,7 @@ public class FeedListController implements Controller, DataBinding {
             model.put("feeds", feeds);
         }
 
-        model.put("mostViewFeeds", feedDao.selectMostViewList());
+        model.put("mostViewFeeds", feedService.selectMostViewList());
         model.put("loginUser", session.getAttribute("loginUser"));
         return "/feed/FeedList.jsp";
     }

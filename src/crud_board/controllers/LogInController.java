@@ -2,6 +2,7 @@ package crud_board.controllers;
 
 import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlUserDao;
+import crud_board.service.UserService;
 import crud_board.vo.User;
 
 import javax.servlet.http.HttpSession;
@@ -13,7 +14,12 @@ import java.util.Map;
 public class LogInController implements Controller, DataBinding {
 
     MySqlUserDao userDao;
+    UserService userService;
 
+    public LogInController setUserService(UserService userService) {
+        this.userService = userService;
+        return this;
+    }
     public LogInController setUserDao(MySqlUserDao userDao) {
         this.userDao = userDao;
         return this;
@@ -35,6 +41,7 @@ public class LogInController implements Controller, DataBinding {
         String id = (String) model.get("id");
         String password = (String) model.get("password");
 
+        // login by anonymous
         if (anonymous != null && anonymous.equals("true")) {
             HttpSession session = (HttpSession) model.get("session");
             session.setAttribute("loginUser", "익명");
@@ -44,15 +51,19 @@ public class LogInController implements Controller, DataBinding {
             return "redirect:../feed/main.do";
         }
 
+        // render screen
         if (id == null) {
             return "/auth/LoginForm.jsp";
-        } else {
+        }
+
+        // login post
+        else {
             if (id.equals("") || password.equals("")) {
                 model.put("alert", "아이디와 비번을 모두 입력해주세요");
                 return "/auth/LoginForm.jsp";
             }
 
-            int no = userDao.exist(id, password);
+            int no = userService.isExist(id, password);
 
             if (no != -1) {
                 HttpSession session = (HttpSession) model.get("session");

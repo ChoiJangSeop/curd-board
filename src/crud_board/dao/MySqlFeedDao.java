@@ -165,7 +165,7 @@ public class MySqlFeedDao implements FeedDao {
 
         try {
             conn = ds.getConnection();
-            pstmt = conn.prepareStatement("DELETE FROM FEEDS");
+            pstmt = conn.prepareStatement("DELETE FROM FEEDS WHERE PNO >= 0");
             return pstmt.executeUpdate();
         } catch (Exception e) { throw e; }
         finally {
@@ -181,10 +181,12 @@ public class MySqlFeedDao implements FeedDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("UPDATE FEEDS SET TITLE=?, CONTENT=? WHERE PNO=?");
+            stmt = conn.prepareStatement("UPDATE FEEDS SET TITLE=?, CONTENT=?, LIKES=?, VIEWS=? WHERE PNO=?");
             stmt.setString(1, feed.getTitle());
             stmt.setString(2, feed.getContent());
-            stmt.setInt(3, feed.getNo());
+            stmt.setInt(3, feed.getLikes());
+            stmt.setInt(4, feed.getViews());
+            stmt.setInt(5, feed.getNo());
             stmt.executeUpdate();
 
         } catch (Exception e) { throw e; }

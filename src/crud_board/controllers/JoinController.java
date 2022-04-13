@@ -2,19 +2,26 @@ package crud_board.controllers;
 
 import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlUserDao;
+import crud_board.service.UserService;
 import crud_board.vo.User;
 
 import java.util.Map;
 
 public class JoinController implements Controller, DataBinding {
 
-    MySqlUserDao userDao;
+    //MySqlUserDao userDao;
+    UserService userService;
 
+    public JoinController setUserService(UserService userService) {
+        this.userService = userService;
+        return this;
+    }
+/*
     public JoinController setUserDao(MySqlUserDao userDao) {
         this.userDao = userDao;
         return this;
     }
-
+*/
     @Override
     public Object[] getDataBinders() {
         return new Object[] {
@@ -29,6 +36,7 @@ public class JoinController implements Controller, DataBinding {
         User newUser = (User) model.get("newUser");
         String passwordCheck = (String) model.get("passwordCheck");
 
+        // rendering first form (input id/pwd)
         if (newUser.getName() == null) {
 
             // enter join form
@@ -43,7 +51,7 @@ public class JoinController implements Controller, DataBinding {
             }
 
             // checking id is duplicate
-            if (userDao.existId(newUser.getId())) {
+            if (!userService.isValidateId(newUser.getId())) {
                 model.clear();
                 model.put("alert", "이미 존재하는 아이디입니다");
                 return "/auth/JoinForm.jsp";
@@ -58,7 +66,6 @@ public class JoinController implements Controller, DataBinding {
 
             // checking pwd/pwd check are inscription
             if (!newUser.getPassword().equals(passwordCheck)) {
-                // TODO alert password check invalid issue
                 model.clear();
                 model.put("alert", "비밀번호와 비밀번호 확인일 일치하지 않습니다");
                 return "/auth/JoinForm.jsp";
@@ -76,15 +83,18 @@ public class JoinController implements Controller, DataBinding {
             model.put("password", newUser.getPassword());
             return "/auth/JoinForm2.jsp";
 
-        } else {
-            if (userDao.existName(newUser.getName())) {
-                // TODO alert duplicate issue
+        }
+
+        // second form (input name)
+        else {
+            if (!userService.isValidateName(newUser.getName())) {
+
                 model.put("id", newUser.getId());
                 model.put("password", newUser.getPassword());
                 model.put("alert", "이미 존재하는 이름입니다");
                 return "/auth/JoinForm2.jsp";
             } else {
-                userDao.insert(newUser);
+                userService.joinUser(newUser);
                 return "redirect:login.do";
             }
 

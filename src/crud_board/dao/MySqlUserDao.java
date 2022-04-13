@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlUserDao {
+public class MySqlUserDao implements UserDao {
 
     DataSource ds;
 
@@ -20,6 +20,7 @@ public class MySqlUserDao {
         this.ds = ds;
     }
 
+    @Override
     public List<User> selectList() throws Exception {
         Connection conn = null;
         Statement stmt = null;
@@ -47,6 +48,35 @@ public class MySqlUserDao {
         }
     }
 
+    @Override
+    public User selectOneById(String id) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.prepareStatement("SELECT UNO, NAME, ID, PWD FROM users WHERE ID=?");
+            stmt.setString(1, id);
+            rs = stmt.executeQuery();
+
+            User user = null;
+
+            if (rs.next()) {
+                user = new User()
+                        .setNo(rs.getInt("UNO"))
+                        .setName(rs.getString("NAME"))
+                        .setId(rs.getString("ID"))
+                        .setPassword(rs.getString("PWD"));
+            }
+
+            return user;
+
+        } catch (Exception e) { throw e; }
+        finally { closeDB(conn, stmt, rs); }
+    }
+
+    @Override
     public User selectOne(int no) throws Exception {
         Connection conn = null;
         Statement stmt = null;
@@ -73,6 +103,35 @@ public class MySqlUserDao {
         finally { closeDB(conn, stmt, rs); }
     }
 
+    @Override
+    public User selectOneByName(String name) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.prepareStatement("SELECT UNO, NAME, ID, PWD FROM users WHERE NAME=?");
+            stmt.setString(1, name);
+            rs = stmt.executeQuery();
+
+            User user = null;
+
+            if (rs.next()) {
+                user = new User()
+                        .setNo(rs.getInt("UNO"))
+                        .setName(rs.getString("NAME"))
+                        .setId(rs.getString("ID"))
+                        .setPassword(rs.getString("PWD"));
+            }
+
+            return user;
+
+        } catch (Exception e) { throw e; }
+        finally { closeDB(conn, stmt, rs); }
+    }
+
+    @Override
     public int insert(User user) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -90,6 +149,7 @@ public class MySqlUserDao {
         finally { closeDB(conn, stmt, null); }
     }
 
+    @Override
     public int delete(int no) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -105,6 +165,7 @@ public class MySqlUserDao {
         finally { closeDB(conn, stmt, null); }
     }
 
+    @Override
     public int update(User user) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -121,64 +182,6 @@ public class MySqlUserDao {
 
         } catch (Exception e) { throw e; }
         finally { closeDB(conn, stmt, null); }
-    }
-
-    public int exist(String id, String password) throws Exception {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = ds.getConnection();
-            stmt = conn.prepareStatement("SELECT UNO FROM users WHERE ID=? AND PWD=?");
-            stmt.setString(1, id);
-            stmt.setString(2, password);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt("UNO");
-            } else {
-                return -1;
-            }
-
-        } catch (Exception e) { throw e; }
-        finally { closeDB(conn, stmt, rs); }
-    }
-
-    public boolean existId(String id) throws Exception {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = ds.getConnection();
-            stmt = conn.prepareStatement("SELECT UNO FROM users WHERE ID=?");
-            stmt.setString(1, id);
-
-            rs = stmt.executeQuery();
-
-            return rs.next();
-
-        } catch (Exception e) { throw e; }
-        finally { closeDB(conn, stmt, rs); }
-    }
-
-    public boolean existName(String name) throws Exception {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = ds.getConnection();
-            stmt = conn.prepareStatement("SELECT UNO FROM users WHERE NAME=?");
-            stmt.setString(1, name);
-
-            rs = stmt.executeQuery();
-            return rs.next();
-
-        } catch (Exception e) { throw e; }
-        finally { closeDB(conn, stmt, rs); }
     }
 
     private void closeDB(Connection conn, Statement stmt, ResultSet rs) {

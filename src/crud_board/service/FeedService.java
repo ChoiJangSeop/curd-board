@@ -53,6 +53,7 @@ public class FeedService {
         return feedDao.update(feed);
     }
 
+    // TODO select 10 feeds ordered by recently
     public List<Feed> selectMostViewList() throws Exception {
         final int MOST_VIEWS = 10;
 
