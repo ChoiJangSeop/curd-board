@@ -10,13 +10,8 @@ import java.util.Map;
 
 public class FeedAddController implements Controller, DataBinding {
 
-    //MySqlFeedDao feedDao;
-    FeedService feedService;
-/*
-    public FeedAddController setFeedDao(MySqlFeedDao feedDao) {
-        this.feedDao = feedDao; return this;
-    }
-*/
+    private FeedService feedService;
+
     public FeedAddController setFeedService(FeedService feedService) {
         this.feedService = feedService;
         return this;

@@ -10,13 +10,43 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlCommentDao {
+public class MySqlCommentDao implements CommentDao {
 
     public DataSource ds;
 
     public void setDataSource(DataSource ds) { this.ds = ds; }
 
-    public List<Comment> selectList(int fno) throws Exception {
+    @Override
+    public List<Comment> selectList() throws Exception {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ds.getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT CNO, CONTENT, WRITER, CRE_DATE FROM COMMENTS");
+
+            List<Comment> comments = new ArrayList<>();
+
+            while (rs.next()) {
+                comments.add(new Comment()
+                        .setNo(rs.getInt("CNO"))
+                        .setContent(rs.getString("CONTENT"))
+                        .setWriter(rs.getString("WRITER"))
+                        .setCreatedDate(rs.getDate("CRE_DATE"))
+                );
+            }
+
+            return comments;
+        } catch (Exception e) { throw e; }
+        finally {
+            closeAll(conn, stmt, null, rs);
+        }
+    }
+
+    @Override
+    public List<Comment> selectListByFeedNo(int fno) throws Exception {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -44,6 +74,7 @@ public class MySqlCommentDao {
         }
     }
 
+    @Override
     public int insert(Comment comment, int no) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -63,6 +94,7 @@ public class MySqlCommentDao {
         }
     }
 
+    @Override
     public int delete(int cno) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -79,7 +111,8 @@ public class MySqlCommentDao {
         }
     }
 
-    public int countComments(int fno) throws Exception {
+    @Override
+    public int countCommentsByFeedNo(int fno) throws Exception {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;

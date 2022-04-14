@@ -11,5 +11,4 @@ public interface FeedDao {
     public int delete(int no) throws  Exception;
     public int update(Feed feed) throws  Exception;
     public int deleteAll() throws  Exception;
-
 }

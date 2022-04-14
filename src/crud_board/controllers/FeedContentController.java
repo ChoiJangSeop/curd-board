@@ -3,6 +3,7 @@ package crud_board.controllers;
 import crud_board.bind.DataBinding;
 import crud_board.dao.MySqlCommentDao;
 import crud_board.dao.MySqlFeedDao;
+import crud_board.service.CommentService;
 import crud_board.service.FeedService;
 import crud_board.vo.Comment;
 import crud_board.vo.Feed;
@@ -12,17 +13,11 @@ import java.util.Map;
 
 public class FeedContentController implements Controller, DataBinding {
 
-    //MySqlFeedDao feedDao;
-    MySqlCommentDao commentDao;
-    FeedService feedService;
-/*
-    public FeedContentController setFeedDao(MySqlFeedDao feedDao) {
-        this.feedDao = feedDao;
-        return this;
-    }
-*/
-    public FeedContentController setCommentDao(MySqlCommentDao commentDao) {
-        this.commentDao = commentDao;
+    private FeedService feedService;
+    private CommentService commentService;
+
+    public FeedContentController setCommentService(CommentService commentService) {
+        this.commentService = commentService;
         return this;
     }
 
@@ -75,7 +70,7 @@ public class FeedContentController implements Controller, DataBinding {
                     .setContent(content)
                     .setWriter(loginUser);
 
-            commentDao.insert(comment, no);
+            commentService.insertComment(comment, no);
         }
 
         // 3. enter content page
@@ -90,7 +85,7 @@ public class FeedContentController implements Controller, DataBinding {
         // update views
         //feedDao.updateViews(no);
         feedService.updateViews(no);
-        Integer counts = Integer.valueOf(commentDao.countComments(no));
+        Integer counts = Integer.valueOf(commentService.countCommentsByFeed(no));
 
         // parse feed writer name
         if (feed.getWriter().startsWith("익명")) {
@@ -98,7 +93,7 @@ public class FeedContentController implements Controller, DataBinding {
         }
 
         // feed content
-        model.put("comments", commentDao.selectList(no));
+        model.put("comments", commentService.selectListByFeed(no));
         model.put("counts", counts.toString());
         model.put("feed", feed);
         model.put("mostViewFeeds", feedService.selectMostViewList());
