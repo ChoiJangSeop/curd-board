@@ -9,6 +9,7 @@ import crud_board.vo.Comment;
 import crud_board.vo.Feed;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 public class FeedContentController implements Controller, DataBinding {
@@ -31,7 +32,8 @@ public class FeedContentController implements Controller, DataBinding {
         return new Object[] {
                 "no", Integer.class,
                 "password", String.class,
-                "comment", String.class
+                "comment", String.class,
+                "likeClick", String.class
         };
     }
 
@@ -73,7 +75,20 @@ public class FeedContentController implements Controller, DataBinding {
             commentService.insertComment(comment, no);
         }
 
-        // 3. enter content page
+        // 3. update Like
+        if (model.get("likeClick") != null) {
+            List<Integer> likeLog = (List<Integer>) session.getAttribute("likeLog");
+
+            if (!likeLog.contains(no)) {
+                feedService.updateLikes(no);
+                likeLog.add(no);
+                session.setAttribute("likeLog", likeLog);
+            } else {
+                model.put("alert", "이미 좋아요를 눌렀습니다");
+            }
+        }
+
+        // 4. enter content page
 
         // check authority to edit
         if (!feed.getWriter().startsWith("익명")) {
@@ -83,7 +98,6 @@ public class FeedContentController implements Controller, DataBinding {
         }
 
         // update views
-        //feedDao.updateViews(no);
         feedService.updateViews(no);
         Integer counts = Integer.valueOf(commentService.countCommentsByFeed(no));
 
@@ -97,6 +111,7 @@ public class FeedContentController implements Controller, DataBinding {
         model.put("counts", counts.toString());
         model.put("feed", feed);
         model.put("mostViewFeeds", feedService.selectMostViewList());
+        model.put("mostLikeFeeds", feedService.selectMostLikeList());
         return "/feed/FeedContent.jsp";
     }
 }

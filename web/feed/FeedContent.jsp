@@ -60,6 +60,11 @@
                         <p style="color: red;">${requestScope.alert}</p>
                     </div>
                 </form>
+                <form action="content.do" method="post">
+                    <input type="hidden" name="likeClick" value="true">
+                    <input type="hidden" name="no" value="${requestScope.feed.getNo()}">
+                    <input type="submit" class="btn btn-warning" value="LIKE">
+                </form>
             </div>
 
             <form acction="content.do" method="post">

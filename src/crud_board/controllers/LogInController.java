@@ -44,9 +44,10 @@ public class LogInController implements Controller, DataBinding {
         // login by anonymous
         if (anonymous != null && anonymous.equals("true")) {
             HttpSession session = (HttpSession) model.get("session");
-            session.setAttribute("loginUser", "익명");
 
+            session.setAttribute("loginUser", "익명");
             session.setAttribute("searchLog", new ArrayList<String>());
+            session.setAttribute("likeLog", new ArrayList<Integer>());
 
             return "redirect:../feed/main.do";
         }
@@ -71,6 +72,8 @@ public class LogInController implements Controller, DataBinding {
 
                 session.setAttribute("loginUser", loginUser.getName());
                 session.setAttribute("searchLog", new ArrayList<String>());
+                session.setAttribute("likeLog", new ArrayList<Integer>());
+
                 return "redirect:../feed/main.do";
             } else {
                 model.put("alert", "아이디 또는 비밀번호가 일치하지 않습니다");

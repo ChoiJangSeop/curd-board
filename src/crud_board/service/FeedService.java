@@ -24,7 +24,6 @@ public class FeedService {
         return feedDao.selectOne(id);
     }
 
-    // TODO 세션정보를 미리 피드에 받아서 피드만 매개변수로 보내기
     public int insertFeed(Feed feed) throws Exception {
         return feedDao.insert(feed);
     }
@@ -53,7 +52,6 @@ public class FeedService {
         return feedDao.update(feed);
     }
 
-    // TODO select 10 feeds ordered by recently
     public List<Feed> selectMostViewList() throws Exception {
         final int MOST_VIEWS = 10;
 
@@ -64,6 +62,26 @@ public class FeedService {
 
         for (Feed feed : feeds) {
             if (feed.getViews() >= MOST_VIEWS) {
+                result.add(feed);
+                cnt++;
+            }
+
+            if (cnt == 10) break;
+        }
+
+        return result;
+    }
+
+    public List<Feed> selectMostLikeList() throws Exception {
+        final int MOST_LIKES = 1;
+
+        List<Feed> feeds = feedDao.selectList();
+        List<Feed> result = new ArrayList<>();
+
+        int cnt = 0;
+
+        for (Feed feed : feeds) {
+            if (feed.getLikes() >= MOST_LIKES) {
                 result.add(feed);
                 cnt++;
             }

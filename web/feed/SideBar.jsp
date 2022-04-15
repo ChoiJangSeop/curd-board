@@ -21,8 +21,7 @@
     <div class="list-group-item list-group-item-secondary" aria-current="true" style="font-weight: bold; text-align: center;">
         실시간 많이 본 글
     </div>
-    <a href="#" class="list-group-item list-group-item-action"></a>
-    <a href="#" class="list-group-item list-group-item-action">A third link item</a>
-    <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
-    <a class="list-group-item list-group-item-action disabled">A disabled link item</a>
+    <c:forEach var="feed" items="${mostLikeFeeds}">
+        <a href="content.do?no=${feed.getNo()}" class="list-group-item list-group-item-action">${feed.getTitle()}</a>
+    </c:forEach>
 </div>

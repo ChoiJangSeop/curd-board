@@ -88,6 +88,7 @@ public class FeedListController implements Controller, DataBinding {
         }
 
         model.put("mostViewFeeds", feedService.selectMostViewList());
+        model.put("mostLikeFeeds", feedService.selectMostLikeList());
         model.put("loginUser", session.getAttribute("loginUser"));
         return "/feed/FeedList.jsp";
     }
