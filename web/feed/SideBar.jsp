@@ -10,7 +10,7 @@
 
 <div class="list-group">
     <div class="list-group-item list-group-item-secondary" aria-current="true" style="font-weight: bold; text-align: center;">
-        실시간 인기글
+        실시간 많이 본 글
     </div>
     <c:forEach var="feed" items="${mostViewFeeds}">
         <a href="content.do?no=${feed.getNo()}" class="list-group-item list-group-item-action">${feed.getTitle()}</a>
@@ -19,7 +19,7 @@
 
 <div class="list-group mt-3">
     <div class="list-group-item list-group-item-secondary" aria-current="true" style="font-weight: bold; text-align: center;">
-        실시간 많이 본 글
+        실시간 인기글
     </div>
     <c:forEach var="feed" items="${mostLikeFeeds}">
         <a href="content.do?no=${feed.getNo()}" class="list-group-item list-group-item-action">${feed.getTitle()}</a>

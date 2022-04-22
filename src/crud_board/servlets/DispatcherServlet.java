@@ -22,7 +22,7 @@ import javax.swing.plaf.synth.ColorType;
 import java.io.IOException;
 import java.util.HashMap;
 
-@WebServlet("*.do")
+@WebServlet("/")
 public class DispatcherServlet extends HttpServlet {
 
     @Override
@@ -49,7 +49,7 @@ public class DispatcherServlet extends HttpServlet {
             String viewUrl = "";
 
             if (!servletPath.startsWith("/auth") && session.getAttribute("loginUser") == null) {
-                viewUrl = "redirect:../auth/login.do";
+                viewUrl = "redirect:../auth/start.do";
             } else if (pageController != null) {
                 viewUrl = pageController.execute(model);
             }

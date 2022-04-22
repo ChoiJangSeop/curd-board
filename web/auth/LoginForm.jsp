@@ -40,7 +40,7 @@
             <label for="formGroupExampleInput2" class="form-label">비밀번호 PASSWORD</label>
             <input type="password" name="password" class="form-control" id="formGroupExampleInput2">
         </div>
-
+<!--
         <div class="mb-3">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="anonymous" id="gridRadios1" value="true">
@@ -49,7 +49,7 @@
                 </label>
             </div>
         </div>
-
+-->
         <div class="mb-3">
             <input type="submit" class="btn btn-primary" value="로그인">
             <a href="join.do" class="btn btn-secondary">회원가입</a>
