@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="curd-board:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/curd_board_war</output-path>
+    <root id="archive" name="curd-board_war.war">
+      <element id="artifact" artifact-name="curd-board:war exploded" />
+    </root>
+  </artifact>
+</component>
