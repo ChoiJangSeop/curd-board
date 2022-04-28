@@ -1,5 +1,5 @@
 package crud_board.service;
-
+/*
 import crud_board.dao.MySqlFeedTestDao;
 import crud_board.vo.Feed;
 import junit.framework.TestCase;
@@ -12,9 +12,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.util.List;
+*/
 
-public class FeedServiceTest extends TestCase {
-
+public class FeedServiceTest {
+/*
     public MySqlFeedTestDao feedDao = new MySqlFeedTestDao();
     public FeedService feedService = new FeedService().setFeedDao(feedDao);
 
@@ -167,4 +168,6 @@ public class FeedServiceTest extends TestCase {
 
 
     }
+    */
+
 }
