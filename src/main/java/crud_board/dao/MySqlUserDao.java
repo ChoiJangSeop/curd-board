@@ -29,7 +29,7 @@ public class MySqlUserDao implements UserDao {
         try {
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT UNO, NAME, ID, PWD FROM users ORDER BY ASC");
+            rs = stmt.executeQuery("SELECT UNO, NAME, ID, PWD FROM USERS ORDER BY ASC");
 
             ArrayList<User> users = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public class MySqlUserDao implements UserDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("SELECT UNO, NAME, ID, PWD FROM users WHERE ID=?");
+            stmt = conn.prepareStatement("SELECT UNO, NAME, ID, PWD FROM USERS WHERE ID=?");
             stmt.setString(1, id);
             rs = stmt.executeQuery();
 
@@ -85,7 +85,7 @@ public class MySqlUserDao implements UserDao {
         try {
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT UNO, NAME, ID, PWD FROM users WHERE UNO=" + no);
+            rs = stmt.executeQuery("SELECT UNO, NAME, ID, PWD FROM USERS WHERE UNO=" + no);
 
             User user = null;
 
@@ -111,7 +111,7 @@ public class MySqlUserDao implements UserDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("SELECT UNO, NAME, ID, PWD FROM users WHERE NAME=?");
+            stmt = conn.prepareStatement("SELECT UNO, NAME, ID, PWD FROM USERS WHERE NAME=?");
             stmt.setString(1, name);
             rs = stmt.executeQuery();
 
@@ -138,7 +138,7 @@ public class MySqlUserDao implements UserDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO users (NAME, ID, PWD) VALUES (?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO USERS (NAME, ID, PWD) VALUES (?, ?, ?)");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getId());
             stmt.setString(3, user.getPassword());
@@ -156,7 +156,7 @@ public class MySqlUserDao implements UserDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("DELETE FROM users WHERE UNO=?");
+            stmt = conn.prepareStatement("DELETE FROM USERS WHERE UNO=?");
             stmt.setInt(1, no);
 
             return stmt.executeUpdate();
@@ -172,7 +172,7 @@ public class MySqlUserDao implements UserDao {
 
         try {
             conn = ds.getConnection();
-            stmt = conn.prepareStatement("UPDATE peeds SET NAME=?, ID=? PWD=? WHERE PNO=?");
+            stmt = conn.prepareStatement("UPDATE PEEDS SET NAME=?, ID=? PWD=? WHERE PNO=?");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getId());
             stmt.setString(3, user.getPassword());
