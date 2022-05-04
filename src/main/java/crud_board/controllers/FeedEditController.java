@@ -9,14 +9,8 @@ import java.util.Map;
 
 public class FeedEditController implements Controller, DataBinding {
 
-    //MySqlFeedDao feedService;
     FeedService feedService;
-/*
-    public FeedEditController setFeedDao(MySqlFeedDao peedDao) {
-        this.feedService = peedDao;
-        return this;
-    }
-*/
+
     public FeedEditController setFeedService(FeedService feedService) {
         this.feedService = feedService;
         return this;
@@ -25,31 +19,32 @@ public class FeedEditController implements Controller, DataBinding {
     @Override
     public Object[] getDataBinders() {
         return new Object[] {
-          "editFeed", crud_board.vo.Feed.class,
-                "no", Integer.class
+                "no", Integer.class,
+                "title", String.class,
+                "content", String.class
         };
     }
 
     @Override
     public String execute(Map<String, Object> model) throws Exception {
 
-        Feed editedFeed = (Feed) model.get("editFeed");
         int no = (Integer) model.get("no");
+        String title = (String) model.get("title");
+        String content = (String) model.get("content");
 
-        if (editedFeed.getTitle() == null) {
+        if (title == null) {
             Feed feed = feedService.selectById(no);
-            String content = feed.getContent();
+            content = feed.getContent();
 
             feed.setContent(content.replace("<br>", "\r\n"));
 
             model.put("editFeed", feed);
             return "/feed/FeedEditForm.jsp";
         } else {
-            String content = editedFeed.getContent();
-            editedFeed.setContent(content.replace("\r\n", "<br>"));
+            content = content.replace("\r\n", "<br>");
 
-            feedService.editFeed(editedFeed);
-            return "redirect:content.do?no="+ editedFeed.getNo();
+            feedService.editFeed(no, title, content);
+            return "redirect:content.do?no="+ no;
         }
     }
 }

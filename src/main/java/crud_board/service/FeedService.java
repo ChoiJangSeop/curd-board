@@ -32,7 +32,11 @@ public class FeedService {
         return feedDao.delete(id);
     }
 
-    public int editFeed(Feed feed) throws Exception {
+    public int editFeed(int no, String title, String content) throws Exception {
+        Feed feed = selectById(no);
+        feed.setTitle(title);
+        feed.setContent(content);
+
         return feedDao.update(feed);
     }
 

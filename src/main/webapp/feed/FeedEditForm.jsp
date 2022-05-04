@@ -48,6 +48,8 @@
                             </div>
                         </div>
                         <input type="hidden" name="no" value="${requestScope.editFeed.getNo()}">
+                        <input type="hidden" name="views" value="${requestScope.editFeed.getViews()}">
+                        <input type="hidden" name="likes" vlaue="${requestScope.editFeed.getLikes()}">
                         <div class="row mb-3" >
                             <label for="edit" class="col-sm-1 col-form-label" style="font-weight: bold;">수정</label>
                             <input type="submit" class="btn btn-primary col-sm-1" id="edit" value="수정">

@@ -9,6 +9,6 @@ public class LogOutController implements Controller {
         HttpSession session = (HttpSession) model.get("session");
         session.invalidate();
 
-        return "redirect:login.do";
+        return "redirect:start.do";
     }
 }
