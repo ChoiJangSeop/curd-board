@@ -38,9 +38,18 @@
         </div>
         <div class="col-8">
             <div class="card mb-3 shadow-sm">
-                <div class="card-header" >
-                    <div style="font-weight: bold; font-size: 20px;">${requestScope.feed.getTitle()}</div>
-                    <div style="align-content: end;">${requestScope.feed.getWriter()} at ${requestScope.feed.getCreatedDate()}</div>
+                <div class="card-header row m-0" >
+                    <div class="col-8">
+                        <div style="font-weight: bold; font-size: 20px;">${requestScope.feed.getTitle()}</div>
+                        <div style="align-content: end;">${requestScope.feed.getWriter()} at ${requestScope.feed.getCreatedDate()}</div>
+                    </div>
+                    <div class="col-4">
+                        <form action="content.do" method="post" class="my-0 text-end">
+                            <input type="hidden" name="likeClick" value="true">
+                            <input type="hidden" name="no" value="${requestScope.feed.getNo()}">
+                            <input type="submit" class="btn btn-warning" value="LIKE">
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body" style="height: 400px;">
                     <p class="card-text">${requestScope.feed.getContent()}</p>
@@ -59,11 +68,6 @@
                     <div class="col-auto">
                         <p style="color: red;">${requestScope.alert}</p>
                     </div>
-                </form>
-                <form action="content.do" method="post">
-                    <input type="hidden" name="likeClick" value="true">
-                    <input type="hidden" name="no" value="${requestScope.feed.getNo()}">
-                    <input type="submit" class="btn btn-warning" value="LIKE">
                 </form>
             </div>
 

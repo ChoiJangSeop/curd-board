@@ -28,7 +28,7 @@
     <div class="row m-3">
         <div class="col-2">
         </div>
-        <div class="card shadow-sm col-8 rounded">
+        <div class="card shadow-sm col-8 p-0">
             <div class="card-header" style="font-weight: bold;">
                 <i class="bi bi-journal-plus"></i> 피드 수정하기
             </div>
