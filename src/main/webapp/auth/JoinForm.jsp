@@ -41,7 +41,7 @@
         </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary">다음</button>
-            <a href="login.do" class="btn btn-danger">취소</a>
+            <a href="start.do" class="btn btn-danger">취소</a>
         </div>
     </form>
 </body>
