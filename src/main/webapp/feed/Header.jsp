@@ -29,7 +29,7 @@
                     <a class="nav-link btn btn-outline-secondary rounded" href="add.do"><i class="bi bi-journal-plus"></i> Add Feed</a>
                 </li>
                 <li class="nav-item align-middle mx-2">
-                    <a class="nav-link btn btn-secondary rounded" href="logout.do">LOGOUT</a>
+                    <a class="nav-link btn btn-secondary rounded" href="../auth/logout.do">LOGOUT</a>
                 </li>
             </ul>
 
