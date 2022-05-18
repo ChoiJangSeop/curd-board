@@ -1,6 +1,10 @@
 # No Think, Yes Write (Sub: 생각없이 끄적이는 곳)
 
-### Release Version : 1.0.0
+### Release Version : 1.1.0
+
+#### v1.1.0
+* 웹 사이트 이름도메인(http://www.nothinkyeswrite.com) 추가
+
 #### v1.0.0
 * 웹사이트 링크 업데이트 안됨. (추후 추가 예정)
 ----
@@ -52,36 +56,36 @@
 ####
     
 3. URL Link
-    * Web Site URL : TBD
+    * Web Site URL : https://www.nothinkyeswrite.com
 ---
 ## [UI/UX & Functions]
 * Start Page
-![](../../Desktop/시작화면.png)
+![](img/시작화면.png)
 익명 또는 회원으로 접속이 가능합니다.
 ####
 
 * Login Page
-![](../../Desktop/로그인.png)
+![](img/로그인.png)
 간단한 회원가입을 통해 회원으로 등록해 아이디/비밀번호로 접속합니다.
 ####
 
 * Main Page
-![](../../Desktop/메인.png)
+![](img/메인.png)
 피드의 제목을 클릭해 피드를 볼 수 있습니다. Like/조회수가 일정치를 넘으면 '많이 본 글', '인기글'에 등록됩니다.
 ####
 
 * Search Page
-  ![](../../Desktop/검색.png)
+  ![](img/검색.png)
 검색창을 통해 검색을 합니다. 이전 검색 기록을 클릭하여 검색도 가능합니다.
 ####
 
 * Write Page
-![](../../Desktop/글쓰기.png)
+![](img/글쓰기.png)
 나만의 글을 작성합니다.
 ####
 
 * Read Page
-![](../../Desktop/글보기.png)
+![](img/글보기.png)
 글을 보고 본인이 작성한 글의 경우, 수정 삭제를 할 수 있습니다. 익명의 경우, 비밀번호를 통해 수정/삭제 권한을 얻을 수 있습니다.
 댓글을 작성할 수 있습니다.
 
