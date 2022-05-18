@@ -3,7 +3,7 @@
 ### Release Version : 1.1.0
 
 #### v1.1.0
-* 웹 사이트 이름도메인(http://www.nothinkyeswrite.com) 추가
+* 웹 사이트 이름도메인(www.nothinkyeswrite.com) 추가
 
 #### v1.0.0
 * 웹사이트 링크 업데이트 안됨. (추후 추가 예정)
@@ -56,7 +56,7 @@
 ####
     
 3. URL Link
-    * Web Site URL : https://www.nothinkyeswrite.com
+    * Web Site URL : www.nothinkyeswrite.com
 ---
 ## [UI/UX & Functions]
 * Start Page
