@@ -2,7 +2,7 @@
 
 ### Release Version : 1.1.0
 
-#### v1.1.0
+#### v1.1.0 (배포중단)
 * 웹 사이트 이름도메인(www.nothinkyeswrite.com) 추가
 
 #### v1.0.0
@@ -55,8 +55,8 @@
     * Deploy WAR file to Server
 ####
     
-3. URL Link
-    * Web Site URL : www.nothinkyeswrite.com
+3. URL Link (Not access)
+    * Web Site URL : ~~www.nothinkyeswrite.com~~
 ---
 ## [UI/UX & Functions]
 * Start Page
